@@ -10,6 +10,14 @@
 		951F7B9B2B931912008B5808 /* SectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7B9A2B931912008B5808 /* SectionModel.swift */; };
 		951F7BAA2B935775008B5808 /* AutoCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BA92B935775008B5808 /* AutoCompleteViewController.swift */; };
 		951F7BB42B935EBF008B5808 /* MainVC+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BB32B935EBF008B5808 /* MainVC+Search.swift */; };
+		951F7BB72B9362FB008B5808 /* BaseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BB62B9362FB008B5808 /* BaseTargetType.swift */; };
+		951F7BB92B936323008B5808 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BB82B936323008B5808 /* Network.swift */; };
+		951F7BBB2B93633D008B5808 /* NetworkURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BBA2B93633D008B5808 /* NetworkURL.swift */; };
+		951F7BBE2B936399008B5808 /* MainRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BBD2B936399008B5808 /* MainRepository.swift */; };
+		951F7BC12B93641C008B5808 /* KeywordResultAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BC02B93641C008B5808 /* KeywordResultAPI.swift */; };
+		951F7BC32B936451008B5808 /* ResultTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BC22B936451008B5808 /* ResultTargetType.swift */; };
+		951F7BC52B936474008B5808 /* RequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BC42B936474008B5808 /* RequestDTO.swift */; };
+		951F7BC92B936576008B5808 /* ResultResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BC82B936576008B5808 /* ResultResponseDTO.swift */; };
 		9570ABA22B91712700508D7E /* AppFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9570ABA12B91712700508D7E /* AppFlowCoordinator.swift */; };
 		9570ABA42B91717100508D7E /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9570ABA32B91717100508D7E /* AppDIContainer.swift */; };
 		9570ABA62B91718400508D7E /* MainDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9570ABA52B91718400508D7E /* MainDIContainer.swift */; };
@@ -38,6 +46,14 @@
 		951F7B9A2B931912008B5808 /* SectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionModel.swift; sourceTree = "<group>"; };
 		951F7BA92B935775008B5808 /* AutoCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCompleteViewController.swift; sourceTree = "<group>"; };
 		951F7BB32B935EBF008B5808 /* MainVC+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainVC+Search.swift"; sourceTree = "<group>"; };
+		951F7BB62B9362FB008B5808 /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
+		951F7BB82B936323008B5808 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		951F7BBA2B93633D008B5808 /* NetworkURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkURL.swift; sourceTree = "<group>"; };
+		951F7BBD2B936399008B5808 /* MainRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRepository.swift; sourceTree = "<group>"; };
+		951F7BC02B93641C008B5808 /* KeywordResultAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordResultAPI.swift; sourceTree = "<group>"; };
+		951F7BC22B936451008B5808 /* ResultTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTargetType.swift; sourceTree = "<group>"; };
+		951F7BC42B936474008B5808 /* RequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestDTO.swift; sourceTree = "<group>"; };
+		951F7BC82B936576008B5808 /* ResultResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultResponseDTO.swift; sourceTree = "<group>"; };
 		9570ABA12B91712700508D7E /* AppFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowCoordinator.swift; sourceTree = "<group>"; };
 		9570ABA32B91717100508D7E /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
 		9570ABA52B91718400508D7E /* MainDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDIContainer.swift; sourceTree = "<group>"; };
@@ -99,6 +115,50 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		951F7BB52B9362EF008B5808 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				951F7BB62B9362FB008B5808 /* BaseTargetType.swift */,
+				951F7BB82B936323008B5808 /* Network.swift */,
+				951F7BBA2B93633D008B5808 /* NetworkURL.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		951F7BBC2B936373008B5808 /* Repositories  */ = {
+			isa = PBXGroup;
+			children = (
+				951F7BBD2B936399008B5808 /* MainRepository.swift */,
+			);
+			path = "Repositories ";
+			sourceTree = "<group>";
+		};
+		951F7BBF2B93640A008B5808 /* KeywordResult */ = {
+			isa = PBXGroup;
+			children = (
+				951F7BC02B93641C008B5808 /* KeywordResultAPI.swift */,
+				951F7BC22B936451008B5808 /* ResultTargetType.swift */,
+				951F7BC42B936474008B5808 /* RequestDTO.swift */,
+			);
+			path = KeywordResult;
+			sourceTree = "<group>";
+		};
+		951F7BC62B936556008B5808 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				951F7BC72B936564008B5808 /* Result */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		951F7BC72B936564008B5808 /* Result */ = {
+			isa = PBXGroup;
+			children = (
+				951F7BC82B936576008B5808 /* ResultResponseDTO.swift */,
+			);
+			path = Result;
+			sourceTree = "<group>";
+		};
 		9570AB962B916FB600508D7E /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +173,7 @@
 		9570AB972B916FBC00508D7E /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				951F7BC62B936556008B5808 /* Entities */,
 				9570ABAE2B91794F00508D7E /* Repository */,
 				9570ABAB2B9178D200508D7E /* UseCase */,
 			);
@@ -131,6 +192,9 @@
 		9570AB992B916FCF00508D7E /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				951F7BBF2B93640A008B5808 /* KeywordResult */,
+				951F7BB52B9362EF008B5808 /* Network */,
+				951F7BBC2B936373008B5808 /* Repositories  */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -406,16 +470,24 @@
 				9570ABA62B91718400508D7E /* MainDIContainer.swift in Sources */,
 				95DD7F632B916BD6002E8666 /* MainViewController.swift in Sources */,
 				9570ABB02B91795D00508D7E /* MainRepositoryProtocol.swift in Sources */,
+				951F7BBE2B936399008B5808 /* MainRepository.swift in Sources */,
 				9570ABA42B91717100508D7E /* AppDIContainer.swift in Sources */,
 				95DD7F5F2B916BD6002E8666 /* AppDelegate.swift in Sources */,
 				9570ABC02B91924600508D7E /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				951F7BB42B935EBF008B5808 /* MainVC+Search.swift in Sources */,
 				951F7B9B2B931912008B5808 /* SectionModel.swift in Sources */,
+				951F7BB92B936323008B5808 /* Network.swift in Sources */,
+				951F7BC12B93641C008B5808 /* KeywordResultAPI.swift in Sources */,
 				95DD7F612B916BD6002E8666 /* SceneDelegate.swift in Sources */,
+				951F7BC52B936474008B5808 /* RequestDTO.swift in Sources */,
 				9570ABAA2B9177D900508D7E /* MainViewModel.swift in Sources */,
+				951F7BB72B9362FB008B5808 /* BaseTargetType.swift in Sources */,
+				951F7BC32B936451008B5808 /* ResultTargetType.swift in Sources */,
+				951F7BC92B936576008B5808 /* ResultResponseDTO.swift in Sources */,
 				9570ABB32B917D5C00508D7E /* UINavigation+.swift in Sources */,
 				9570ABC42B91953900508D7E /* CustomFooterView.swift in Sources */,
 				9570ABAD2B9178DC00508D7E /* MainUseCase.swift in Sources */,
+				951F7BBB2B93633D008B5808 /* NetworkURL.swift in Sources */,
 				9570ABB62B9185D200508D7E /* MainLayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
