@@ -14,5 +14,16 @@ extension MainViewController: UISearchBarDelegate {
         print("search button click")
         viewModel.moveToResult(of: searchBar.text ?? "")
     }
-    
+}
+
+extension MainViewController: RecentSearchDelegate {
+    func deleteIndex(_ index: Int) {
+        viewModel.didTapRemoveKeyword(of: index)
+    }
+}
+
+extension MainViewController: CustomFooterDelegate {
+    func didTapRemove() {
+        viewModel.didTapRemoveAll()
+    }
 }

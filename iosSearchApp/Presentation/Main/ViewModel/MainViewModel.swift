@@ -15,6 +15,8 @@ struct MainViewModelActions{
 
 protocol MainViewModelInput{
     func moveToResult(of keyword: String)
+    func didTapRemoveKeyword(of index: Int) //최근 검색어 삭제
+    func didTapRemoveAll()                     //최근 검색어 전체 삭제
 }
 
 protocol MainViewModelOutput{
@@ -48,5 +50,23 @@ final class DefaultMainViewModel: MainViewModel {
     func moveToResult(of keyword: String) {
        
     }
+    
+    /**
+     선택한 키워드 삭제
+     */
+    func didTapRemoveKeyword(of index: Int) {
+        guard var value = recentSearchList.value.first else { return }
+        value.items.remove(at: index)
+        recentSearchList.accept([value])
+    }
+    
+    /**
+     키워드 전체 삭제
+     */
+    func didTapRemoveAll() {
+        recentSearchList.accept([])
+    }
+    
+    
     
 }

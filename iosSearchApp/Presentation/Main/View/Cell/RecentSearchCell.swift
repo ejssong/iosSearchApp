@@ -9,6 +9,11 @@ import Foundation
 import UIKit
 import Then
 import SnapKit
+import RxSwift
+
+protocol RecentSearchDelegate: AnyObject {
+    func deleteIndex(_ index: Int)
+}
 
 class RecentSearchCell: UICollectionViewCell {
     static let identifier = "RecentSearchCell"
@@ -36,6 +41,11 @@ class RecentSearchCell: UICollectionViewCell {
         $0.tintColor = UIColor(named: "Label")
     }
     
+    var index: Int = 0
+    weak var delegate : RecentSearchDelegate?
+    
+    var disposeBag = DisposeBag()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -45,10 +55,16 @@ class RecentSearchCell: UICollectionViewCell {
         super.init(coder: coder)
     }
     
+    override func prepareForReuse() {
+        index = 0
+        delegate = nil
+        disposeBag = DisposeBag()
+    }
+    
     func commonInit() {
         setUI()
         setConstraint()
-       
+        bind()
     }
     
     func setUI() {
@@ -74,5 +90,14 @@ class RecentSearchCell: UICollectionViewCell {
         deleteButton.snp.makeConstraints{
             $0.size.equalTo(16)
         }
+    }
+    
+    func bind() {
+        deleteButton.rx.tap
+            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+            .withUnretained(self)
+            .subscribe(onNext: { (owner, _) in
+                owner.delegate?.deleteIndex(owner.index)
+            }).disposed(by: disposeBag)
     }
 }

@@ -18,7 +18,7 @@ class MainViewController: UIViewController {
     
     var disposeBag = DisposeBag()
     
-    private var dataSource : RxCollectionViewSectionedReloadDataSource<SectionModel>!
+    private var dataSource : RxCollectionViewSectionedAnimatedDataSource<SectionModel>!
      
     static func create(with viewModel: MainViewModel) -> MainViewController {
         let mainVC = MainViewController()
@@ -69,11 +69,15 @@ class MainViewController: UIViewController {
     }
     
     private func setConfigDataSource() {
-        dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel>(configureCell: { dataSource, collectionView, indexPath, item in
+        dataSource = RxCollectionViewSectionedAnimatedDataSource<SectionModel>(animationConfiguration: AnimationConfiguration(insertAnimation: .top, reloadAnimation: .fade, deleteAnimation: .left)) { data, collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchCell.identifier, for: indexPath) as? RecentSearchCell, let model = item as? SectionListModel else { return UICollectionViewCell() }
+            cell.index = indexPath.row
             cell.label.text = model.value
+            cell.delegate = self
             return cell
-        }, configureSupplementaryView: { (dataSource, collectionView, kind, indexPath) -> UICollectionReusableView in
+        }
+        
+        dataSource.configureSupplementaryView = { (dataSource, collectionView, kind, indexPath) -> UICollectionReusableView in
             switch kind {
             case UICollectionView.elementKindSectionHeader:
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CustomHeaderView.identifier, for: indexPath) as? CustomHeaderView else { return UICollectionReusableView() }
@@ -84,10 +88,12 @@ class MainViewController: UIViewController {
                 guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CustomFooterView.identifier, for: indexPath) as? CustomFooterView else { return UICollectionReusableView() }
                 let title = dataSource.sectionModels[indexPath.section].footer
                 footer.bind(title: title)
+                footer.delegate = self
+            
                 return footer
             default: return UICollectionReusableView()
             }
-        })
+        }
     }
 }
 
