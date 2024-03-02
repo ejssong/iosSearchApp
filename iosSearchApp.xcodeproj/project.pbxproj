@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		951F7B9B2B931912008B5808 /* SectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7B9A2B931912008B5808 /* SectionModel.swift */; };
+		951F7BAA2B935775008B5808 /* AutoCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BA92B935775008B5808 /* AutoCompleteViewController.swift */; };
+		951F7BB42B935EBF008B5808 /* MainVC+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BB32B935EBF008B5808 /* MainVC+Search.swift */; };
 		9570ABA22B91712700508D7E /* AppFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9570ABA12B91712700508D7E /* AppFlowCoordinator.swift */; };
 		9570ABA42B91717100508D7E /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9570ABA32B91717100508D7E /* AppDIContainer.swift */; };
 		9570ABA62B91718400508D7E /* MainDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9570ABA52B91718400508D7E /* MainDIContainer.swift */; };
@@ -15,6 +18,12 @@
 		9570ABAD2B9178DC00508D7E /* MainUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9570ABAC2B9178DC00508D7E /* MainUseCase.swift */; };
 		9570ABB02B91795D00508D7E /* MainRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9570ABAF2B91795D00508D7E /* MainRepositoryProtocol.swift */; };
 		9570ABB32B917D5C00508D7E /* UINavigation+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9570ABB22B917D5C00508D7E /* UINavigation+.swift */; };
+		9570ABB62B9185D200508D7E /* MainLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9570ABB52B9185D200508D7E /* MainLayerView.swift */; };
+		9570ABB92B91869200508D7E /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9570ABB82B91869200508D7E /* RecentSearchCell.swift */; };
+		9570ABBD2B918E4B00508D7E /* ColorAsset.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9570ABBC2B918E4B00508D7E /* ColorAsset.xcassets */; };
+		9570ABC02B91924600508D7E /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9570ABBF2B91924600508D7E /* LeftAlignedCollectionViewFlowLayout.swift */; };
+		9570ABC22B91953100508D7E /* CustomHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9570ABC12B91953100508D7E /* CustomHeaderView.swift */; };
+		9570ABC42B91953900508D7E /* CustomFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9570ABC32B91953900508D7E /* CustomFooterView.swift */; };
 		95DD7F5F2B916BD6002E8666 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DD7F5E2B916BD6002E8666 /* AppDelegate.swift */; };
 		95DD7F612B916BD6002E8666 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DD7F602B916BD6002E8666 /* SceneDelegate.swift */; };
 		95DD7F632B916BD6002E8666 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95DD7F622B916BD6002E8666 /* MainViewController.swift */; };
@@ -26,6 +35,9 @@
 /* Begin PBXFileReference section */
 		0E7977BC12C244BC0EB30175 /* Pods-iosSearchApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosSearchApp.debug.xcconfig"; path = "Target Support Files/Pods-iosSearchApp/Pods-iosSearchApp.debug.xcconfig"; sourceTree = "<group>"; };
 		15820D598A0B89476B9A3330 /* Pods-iosSearchApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosSearchApp.release.xcconfig"; path = "Target Support Files/Pods-iosSearchApp/Pods-iosSearchApp.release.xcconfig"; sourceTree = "<group>"; };
+		951F7B9A2B931912008B5808 /* SectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionModel.swift; sourceTree = "<group>"; };
+		951F7BA92B935775008B5808 /* AutoCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCompleteViewController.swift; sourceTree = "<group>"; };
+		951F7BB32B935EBF008B5808 /* MainVC+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainVC+Search.swift"; sourceTree = "<group>"; };
 		9570ABA12B91712700508D7E /* AppFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowCoordinator.swift; sourceTree = "<group>"; };
 		9570ABA32B91717100508D7E /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
 		9570ABA52B91718400508D7E /* MainDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDIContainer.swift; sourceTree = "<group>"; };
@@ -34,6 +46,12 @@
 		9570ABAC2B9178DC00508D7E /* MainUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainUseCase.swift; sourceTree = "<group>"; };
 		9570ABAF2B91795D00508D7E /* MainRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRepositoryProtocol.swift; sourceTree = "<group>"; };
 		9570ABB22B917D5C00508D7E /* UINavigation+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigation+.swift"; sourceTree = "<group>"; };
+		9570ABB52B9185D200508D7E /* MainLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainLayerView.swift; sourceTree = "<group>"; };
+		9570ABB82B91869200508D7E /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
+		9570ABBC2B918E4B00508D7E /* ColorAsset.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ColorAsset.xcassets; sourceTree = "<group>"; };
+		9570ABBF2B91924600508D7E /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		9570ABC12B91953100508D7E /* CustomHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomHeaderView.swift; sourceTree = "<group>"; };
+		9570ABC32B91953900508D7E /* CustomFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFooterView.swift; sourceTree = "<group>"; };
 		95DD7F5B2B916BD6002E8666 /* iosSearchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosSearchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95DD7F5E2B916BD6002E8666 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		95DD7F602B916BD6002E8666 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -62,8 +80,23 @@
 				0E7977BC12C244BC0EB30175 /* Pods-iosSearchApp.debug.xcconfig */,
 				15820D598A0B89476B9A3330 /* Pods-iosSearchApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		951F7BA62B935760008B5808 /* AutoComplete */ = {
+			isa = PBXGroup;
+			children = (
+				951F7BA82B935769008B5808 /* View */,
+			);
+			path = AutoComplete;
+			sourceTree = "<group>";
+		};
+		951F7BA82B935769008B5808 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				951F7BA92B935775008B5808 /* AutoCompleteViewController.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		9570AB962B916FB600508D7E /* Application */ = {
@@ -90,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				9570AB9B2B916FFF00508D7E /* Main */,
+				951F7BA62B935760008B5808 /* AutoComplete */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -122,7 +156,10 @@
 		9570AB9C2B91700400508D7E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9570ABB72B91867B00508D7E /* Cell */,
+				9570ABB42B9185BA00508D7E /* Layer */,
 				95DD7F622B916BD6002E8666 /* MainViewController.swift */,
+				951F7BB32B935EBF008B5808 /* MainVC+Search.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -130,6 +167,7 @@
 		9570AB9D2B91700900508D7E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				951F7B9A2B931912008B5808 /* SectionModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -180,8 +218,27 @@
 			isa = PBXGroup;
 			children = (
 				9570ABB22B917D5C00508D7E /* UINavigation+.swift */,
+				9570ABBF2B91924600508D7E /* LeftAlignedCollectionViewFlowLayout.swift */,
 			);
 			path = Extention;
+			sourceTree = "<group>";
+		};
+		9570ABB42B9185BA00508D7E /* Layer */ = {
+			isa = PBXGroup;
+			children = (
+				9570ABB52B9185D200508D7E /* MainLayerView.swift */,
+				9570ABC12B91953100508D7E /* CustomHeaderView.swift */,
+				9570ABC32B91953900508D7E /* CustomFooterView.swift */,
+			);
+			path = Layer;
+			sourceTree = "<group>";
+		};
+		9570ABB72B91867B00508D7E /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				9570ABB82B91869200508D7E /* RecentSearchCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		95DD7F522B916BD6002E8666 = {
@@ -207,6 +264,7 @@
 			children = (
 				95DD7F6C2B916BD6002E8666 /* Info.plist */,
 				95DD7F672B916BD6002E8666 /* Assets.xcassets */,
+				9570ABBC2B918E4B00508D7E /* ColorAsset.xcassets */,
 				95DD7F692B916BD6002E8666 /* LaunchScreen.storyboard */,
 				9570AB962B916FB600508D7E /* Application */,
 				9570AB972B916FBC00508D7E /* Domain */,
@@ -285,6 +343,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9570ABBD2B918E4B00508D7E /* ColorAsset.xcassets in Resources */,
 				95DD7F6B2B916BD6002E8666 /* LaunchScreen.storyboard in Resources */,
 				95DD7F682B916BD6002E8666 /* Assets.xcassets in Resources */,
 			);
@@ -339,17 +398,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9570ABC22B91953100508D7E /* CustomHeaderView.swift in Sources */,
 				9570ABA22B91712700508D7E /* AppFlowCoordinator.swift in Sources */,
 				9570ABA82B91719A00508D7E /* MainCoordinator.swift in Sources */,
+				951F7BAA2B935775008B5808 /* AutoCompleteViewController.swift in Sources */,
+				9570ABB92B91869200508D7E /* RecentSearchCell.swift in Sources */,
 				9570ABA62B91718400508D7E /* MainDIContainer.swift in Sources */,
 				95DD7F632B916BD6002E8666 /* MainViewController.swift in Sources */,
 				9570ABB02B91795D00508D7E /* MainRepositoryProtocol.swift in Sources */,
 				9570ABA42B91717100508D7E /* AppDIContainer.swift in Sources */,
 				95DD7F5F2B916BD6002E8666 /* AppDelegate.swift in Sources */,
+				9570ABC02B91924600508D7E /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
+				951F7BB42B935EBF008B5808 /* MainVC+Search.swift in Sources */,
+				951F7B9B2B931912008B5808 /* SectionModel.swift in Sources */,
 				95DD7F612B916BD6002E8666 /* SceneDelegate.swift in Sources */,
 				9570ABAA2B9177D900508D7E /* MainViewModel.swift in Sources */,
 				9570ABB32B917D5C00508D7E /* UINavigation+.swift in Sources */,
+				9570ABC42B91953900508D7E /* CustomFooterView.swift in Sources */,
 				9570ABAD2B9178DC00508D7E /* MainUseCase.swift in Sources */,
+				9570ABB62B9185D200508D7E /* MainLayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

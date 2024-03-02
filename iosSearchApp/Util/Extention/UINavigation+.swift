@@ -14,6 +14,7 @@ extension UINavigationController {
         navigation.hidesBottomBarWhenPushed = true
         navigation.setToolbarHidden(true, animated: false)
         navigation.setNavigationBarHidden(false, animated: false)
+        navigation.navigationBar.prefersLargeTitles = true 
         return navigation
     }
     
