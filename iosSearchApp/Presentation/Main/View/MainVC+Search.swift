@@ -8,22 +8,18 @@
 import Foundation
 import UIKit
 
-extension MainViewController: UISearchBarDelegate {
+extension MainViewController: UISearchBarDelegate, UISearchResultsUpdating {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("search button click")
         viewModel.moveToResult(of: searchBar.text ?? "")
     }
-}
-
-extension MainViewController: RecentSearchDelegate {
-    func deleteIndex(_ index: Int) {
-        viewModel.didTapRemoveKeyword(of: index)
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.didSearchCancel()
     }
-}
-
-extension MainViewController: CustomFooterDelegate {
-    func didTapRemove() {
-        viewModel.didTapRemoveAll()
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text?.lowercased() else { return }
+        text.isEmpty ? viewModel.didSearchCancel() : viewModel.didSearchUpdate(of: text)
     }
 }

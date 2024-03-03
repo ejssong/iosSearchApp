@@ -8,13 +8,16 @@
 import Foundation
 
 final class MainRepository: MainRepositoryProtocol {
-    
+
     init() { }
     
     //MARK: 키워드 검색 API
-    func reqKeywordResult(dto: RequestDTO, completion: @escaping (Bool) -> Void) {
-        KeywordResultAPI.reqKeywordResult(dto: dto) {
-            completion($0)
+    func reqKeywordResult(dto: RequestDTO) -> Result<ResultResponseDTO, ResponseError> {
+        KeywordResultAPI.reqKeywordResult(dto: dto) { [weak self] value in
+            
         }
+    
+        return .failure(.invalid)
     }
+    
 }

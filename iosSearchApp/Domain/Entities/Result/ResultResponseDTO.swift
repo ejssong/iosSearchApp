@@ -8,27 +8,55 @@
 import Foundation
 
 struct ResultResponseDTO : Decodable {
-    var items: [LectureCodeResponseDTO]
+    var totalCnt : Int
+    var incomplete: Bool
+    var items : [ResultItem]
     
     enum CodingKeys : String, CodingKey {
-        case items = "Items"
+        case totalCnt = "total_count"
+        case incomplete = "incomplete_results"
+        case items
     }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        items         = (try? container.decode([LectureCodeResponseDTO].self, forKey: .items )) ?? []
+        totalCnt      = (try? container.decode(Int.self, forKey: .totalCnt)) ?? 0
+        incomplete    = (try? container.decode(Bool.self, forKey: .incomplete)) ?? true
+        items         = (try? container.decode([ResultItem].self, forKey: .items )) ?? []
     }
 }
 
-struct LectureCodeResponseDTO: Decodable {
-    var code: String
+struct ResultItem: Decodable {
+    var id: Int
+    var name: String
+    var owner: ResultOwner?
     
     enum CodingKeys : String, CodingKey {
-        case code = "lecture_code"
+        case id
+        case name
+        case owner
     }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        code         = (try? container.decode(String.self, forKey: .code )) ?? ""
+        id            = (try? container.decode(Int.self, forKey: .id )) ?? 0
+        name          = (try? container.decode(String.self, forKey: .name )) ?? ""
+        owner         = (try? container.decode(ResultOwner.self, forKey: .owner )) ?? nil
+    }
+}
+
+struct ResultOwner: Decodable {
+    var avatar: String
+    var login: String
+    
+    enum CodingKeys : String, CodingKey {
+        case avatar = "avatar_url"
+        case login
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        avatar        = (try? container.decode(String.self, forKey: .avatar )) ?? ""
+        login         = (try? container.decode(String.self, forKey: .login )) ?? ""
     }
 }

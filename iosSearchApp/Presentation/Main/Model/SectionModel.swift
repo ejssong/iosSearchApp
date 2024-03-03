@@ -42,6 +42,7 @@ class SectionViewModel : Equatable, IdentifiableType {
 
 class SectionListModel: SectionViewModel, Codable, Hashable {
     var value: String
+    var date: Date = Date()
     
     init(value: String) {
         self.value = value

@@ -11,12 +11,14 @@ import RxSwift
 import RxCocoa
 
 class MainViewController: UIViewController {
-    
+        
     var layerView = MainLayerView()
     
     var viewModel : MainViewModel!
     
     var disposeBag = DisposeBag()
+
+    private var tableDataSource: RxTableViewSectionedReloadDataSource<SectionModel>!
     
     private var dataSource : RxCollectionViewSectionedAnimatedDataSource<SectionModel>!
      
@@ -36,14 +38,17 @@ class MainViewController: UIViewController {
         setUI()
         setConstraint()
         setSearchView()
-        setConfigDataSource()
+        setConfigCollectionDataSource()
+        setConfigTableDataSource()
         bind()
+        
     }
     
     func setSearchView() {
-        let autoCompleteVC = AutoCompleteViewController()
-        let search = UISearchController(searchResultsController: autoCompleteVC)
+        let search = UISearchController(searchResultsController: nil)
         search.searchBar.delegate = self
+        search.searchResultsUpdater = self
+        
         search.searchBar.placeholder = "검색어를 입력해 주세요"
         search.hidesNavigationBarDuringPresentation = true
         
@@ -66,9 +71,25 @@ class MainViewController: UIViewController {
         viewModel.recentSearchList
             .bind(to: layerView.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
+        viewModel.filterList
+            .bind(to: layerView.tableView.rx.items(dataSource: tableDataSource))
+            .disposed(by: disposeBag)
+        
+//        viewModel.isSearching
+//            .drive(layerView.tableView.rx.isHidden)
+//            .disposed(by: disposeBag)
+//
+        viewModel.isSearching
+            .distinctUntilChanged()
+            .drive{ [weak self] value in
+                self?.layerView.tableView.isHidden = !value
+                self?.layerView.collectionView.isHidden = value
+            }
+            .disposed(by: disposeBag)
     }
     
-    private func setConfigDataSource() {
+    private func setConfigCollectionDataSource() {
         dataSource = RxCollectionViewSectionedAnimatedDataSource<SectionModel>(animationConfiguration: AnimationConfiguration(insertAnimation: .top, reloadAnimation: .fade, deleteAnimation: .left)) { data, collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchCell.identifier, for: indexPath) as? RecentSearchCell, let model = item as? SectionListModel else { return UICollectionViewCell() }
             cell.index = indexPath.row
@@ -93,6 +114,14 @@ class MainViewController: UIViewController {
                 return footer
             default: return UICollectionReusableView()
             }
+        }
+    }
+
+    private func setConfigTableDataSource() {
+        tableDataSource = RxTableViewSectionedReloadDataSource<SectionModel> { data, tableView, indexPath, item in
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchUpdateCell.identifier, for: indexPath) as? SearchUpdateCell, let model = item as? SectionListModel else { return UITableViewCell() }
+            cell.setModel(of: model)
+            return cell
         }
     }
 }

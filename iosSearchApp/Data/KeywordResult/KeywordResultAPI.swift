@@ -7,32 +7,33 @@
 
 import Moya
 
+enum ResponseError: Error {
+    case decodeError
+    case networkError
+    case invalid
+}
+
 struct KeywordResultAPI: Network {
     typealias Target =  ResultTargetType
     
     //MARK:
-    //@escaping (Result<ResultResponseDTO, Error>
-    static func reqKeywordResult(dto: RequestDTO, completion: @escaping (Bool) -> Void) {
+    static func reqKeywordResult(dto: RequestDTO, completion: @escaping (Result<ResultResponseDTO, ResponseError>) -> Void) {
         makeProvider().request(.reqKeywordResult(dto)) { result in
             switch result {
             case let .success(response):
                 switch response.statusCode {
                 case 200:
                     do {
-                        completion(true)
-//                        let model = try JSONDecoder().decode(TimeTableResponseDTO.self, from: response.data)
-//                        completion(.success(model))
+                        let model = try JSONDecoder().decode(ResultResponseDTO.self, from: response.data)
+                        completion(.success(model))
                     } catch {
-                        completion(false)
-//                        completion(.failure(TimeTableErrorCode.decodeError))
+                        completion(.failure(.decodeError))
                     }
                 default:
-                    completion(false)
-//                    completion(.failure(TimeTableErrorCode(rawValue: response.statusCode) ?? .none))
+                    completion(.failure(.networkError))
                 }
-            case let .failure(error):
-                completion(false)
-//                completion(.failure(error))
+            case .failure(_):
+                completion(.failure(.networkError))
             }
         }
     }

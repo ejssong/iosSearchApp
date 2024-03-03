@@ -31,8 +31,16 @@ class MainLayerView: UIView {
         view.register(RecentSearchCell.self, forCellWithReuseIdentifier: RecentSearchCell.identifier)
         view.register(CustomHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CustomHeaderView.identifier)
         view.register(CustomFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CustomFooterView.identifier)
-
         view.contentInset = .zero
+        return view
+    }()
+    
+    lazy var tableView: UITableView = {
+        let view = UITableView()
+        view.backgroundColor = .white
+        view.separatorStyle  = .none
+        view.rowHeight = 40
+        view.register(SearchUpdateCell.self, forCellReuseIdentifier: SearchUpdateCell.identifier)
         return view
     }()
     
@@ -53,11 +61,15 @@ class MainLayerView: UIView {
     }
     
     func setUI() {
-        addSubview(collectionView)
+        [collectionView, tableView].forEach(addSubview(_:))
     }
     
     func setConstraint() {
         collectionView.snp.makeConstraints{
+            $0.edges.equalToSuperview()
+        }
+        
+        tableView.snp.makeConstraints{
             $0.edges.equalToSuperview()
         }
     }
