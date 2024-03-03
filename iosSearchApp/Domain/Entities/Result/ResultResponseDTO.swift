@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 struct ResultResponseDTO : Decodable {
     var totalCnt : Int
@@ -26,37 +27,66 @@ struct ResultResponseDTO : Decodable {
     }
 }
 
-struct ResultItem: Decodable {
-    var id: Int
+extension ResultResponseDTO : AnimatableSectionModelType {
+    typealias Item = ResultItem
+    
+    init(original: ResultResponseDTO, items: [ResultItem]) {
+        self = original
+        self.items = items
+    }
+    
+    var identity: Int {
+        return totalCnt
+    }
+}
+
+class ResultItem: SectionViewModel, Codable, Hashable {
     var name: String
     var owner: ResultOwner?
     
     enum CodingKeys : String, CodingKey {
-        case id
         case name
         case owner
     }
     
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        id            = (try? container.decode(Int.self, forKey: .id )) ?? 0
         name          = (try? container.decode(String.self, forKey: .name )) ?? ""
         owner         = (try? container.decode(ResultOwner.self, forKey: .owner )) ?? nil
     }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+    }
+    
+    static func == (lhs: ResultItem, rhs: ResultItem) -> Bool {
+        return lhs.name == rhs.name
+    }
 }
 
-struct ResultOwner: Decodable {
+class ResultOwner: SectionViewModel, Codable, Hashable {
     var avatar: String
     var login: String
+    var url: String
     
     enum CodingKeys : String, CodingKey {
         case avatar = "avatar_url"
         case login
+        case url = "html_url"
     }
     
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         avatar        = (try? container.decode(String.self, forKey: .avatar )) ?? ""
         login         = (try? container.decode(String.self, forKey: .login )) ?? ""
+        url           = (try? container.decode(String.self, forKey: .url )) ?? ""
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(login)
+    }
+    
+    static func == (lhs: ResultOwner, rhs: ResultOwner) -> Bool {
+        return lhs.login == rhs.login
     }
 }

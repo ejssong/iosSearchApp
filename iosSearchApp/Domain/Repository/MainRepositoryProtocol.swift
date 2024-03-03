@@ -8,5 +8,5 @@
 import Foundation
 
 protocol MainRepositoryProtocol {
-    func reqKeywordResult(dto: RequestDTO) -> Result<ResultResponseDTO, ResponseError>
+    func reqKeywordResult(dto: RequestDTO, completion: @escaping (Result<ResultResponseDTO, ResponseError>) -> Void)
 }

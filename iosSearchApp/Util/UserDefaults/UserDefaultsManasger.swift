@@ -10,14 +10,14 @@ import Foundation
 @propertyWrapper
 struct UserDefaultWrapper<T: Codable> {
     private let key: String
-    private let defaultValue: T?
+    private let defaultValue: T
 
-    init(key: String, defaultValue: T?) {
+    init(key: String, defaultValue: T) {
         self.key = key
         self.defaultValue = defaultValue
     }
 
-    var wrappedValue: T? {
+    var wrappedValue: T {
         get {
             if let savedData = UserDefaults.standard.object(forKey: key) as? Data {
                 let decoder = JSONDecoder()
@@ -37,6 +37,6 @@ struct UserDefaultWrapper<T: Codable> {
 }
 
 struct UserDefaultsManager {
-    @UserDefaultWrapper(key: "recentList", defaultValue: nil)
-    static var recentList: [SectionListModel]?
+    @UserDefaultWrapper(key: "recentList", defaultValue: [])
+    static var recentList: [SectionListModel]
 }

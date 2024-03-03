@@ -11,15 +11,27 @@ import RxSwift
 import RxCocoa
 
 class MainViewController: UIViewController {
-        
+    
+    let resultVC = ResultViewController()
+    
     var layerView = MainLayerView()
+    
+    lazy var searchVC : UISearchController = {
+        let search = UISearchController(searchResultsController: resultVC)
+        search.searchBar.delegate = self
+        search.searchResultsUpdater = self
+        
+        search.searchBar.placeholder = "검색어를 입력해 주세요"
+        search.hidesNavigationBarDuringPresentation = true
+        search.showsSearchResultsController = false
+        return search
+    }()
     
     var viewModel : MainViewModel!
     
     var disposeBag = DisposeBag()
 
     private var tableDataSource: RxTableViewSectionedReloadDataSource<SectionModel>!
-    
     private var dataSource : RxCollectionViewSectionedAnimatedDataSource<SectionModel>!
      
     static func create(with viewModel: MainViewModel) -> MainViewController {
@@ -41,24 +53,17 @@ class MainViewController: UIViewController {
         setConfigCollectionDataSource()
         setConfigTableDataSource()
         bind()
-        
+        resultVC.delegate = self
     }
     
     func setSearchView() {
-        let search = UISearchController(searchResultsController: nil)
-        search.searchBar.delegate = self
-        search.searchResultsUpdater = self
-        
-        search.searchBar.placeholder = "검색어를 입력해 주세요"
-        search.hidesNavigationBarDuringPresentation = true
-        
-        navigationItem.searchController = search
+        navigationItem.searchController = searchVC
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.title = "Search"
     }
     
     func setUI() {
-        view.addSubview(layerView)
+        [layerView].forEach(view.addSubview(_:))
     }
     
     func setConstraint() {
@@ -75,18 +80,18 @@ class MainViewController: UIViewController {
         viewModel.filterList
             .bind(to: layerView.tableView.rx.items(dataSource: tableDataSource))
             .disposed(by: disposeBag)
-        
-//        viewModel.isSearching
-//            .drive(layerView.tableView.rx.isHidden)
-//            .disposed(by: disposeBag)
-//
+
         viewModel.isSearching
             .distinctUntilChanged()
             .drive{ [weak self] value in
                 self?.layerView.tableView.isHidden = !value
                 self?.layerView.collectionView.isHidden = value
-            }
+            }.disposed(by: disposeBag)
+        
+        viewModel.resultList
+            .bind(to: resultVC.resultLayer.tableView.rx.items(dataSource: resultVC.dataSource))
             .disposed(by: disposeBag)
+
     }
     
     private func setConfigCollectionDataSource() {

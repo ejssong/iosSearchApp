@@ -12,12 +12,14 @@ extension MainViewController: UISearchBarDelegate, UISearchResultsUpdating {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         viewModel.moveToResult(of: searchBar.text ?? "")
+        searchVC.showsSearchResultsController = true
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         viewModel.didSearchCancel()
+        searchVC.showsSearchResultsController = false
     }
-    
+   
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text?.lowercased() else { return }
         text.isEmpty ? viewModel.didSearchCancel() : viewModel.didSearchUpdate(of: text)

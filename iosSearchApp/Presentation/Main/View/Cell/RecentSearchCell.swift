@@ -86,10 +86,6 @@ class RecentSearchCell: UICollectionViewCell {
         stackView.snp.makeConstraints{
             $0.edges.equalToSuperview()
         }
-        
-        deleteButton.snp.makeConstraints{
-            $0.size.equalTo(16)
-        }
     }
     
     func bind() {

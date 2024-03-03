@@ -7,17 +7,18 @@
 
 import Foundation
 
-final class MainRepository: MainRepositoryProtocol {
-
+final class DefaultMainRepository: MainRepositoryProtocol {
     init() { }
     
     //MARK: 키워드 검색 API
-    func reqKeywordResult(dto: RequestDTO) -> Result<ResultResponseDTO, ResponseError> {
-        KeywordResultAPI.reqKeywordResult(dto: dto) { [weak self] value in
-            
+    func reqKeywordResult(dto: RequestDTO, completion: @escaping (Result<ResultResponseDTO, ResponseError>) -> Void) {
+        KeywordResultAPI.reqKeywordResult(dto: dto) {
+            switch $0 {
+            case .success(let response):
+                completion(.success(response))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
-    
-        return .failure(.invalid)
     }
-    
 }

@@ -8,18 +8,21 @@
 import Foundation
 
 protocol MainUseCase{
-    
+    func reqKeywordResult(of dto: RequestDTO, completion: @escaping (Result<ResultResponseDTO, ResponseError>) -> Void)
 }
 
 class DefaultMainUseCase : MainUseCase {
     
-//    private let repository: MainRepositoryProtocol
-//
-//    init(repository: MainRepositoryProtocol) {
-//        self.repository = repository
-//    }
+    private let repository: MainRepositoryProtocol
     
-    init() {}
+    init(repository: MainRepositoryProtocol) {
+        self.repository = repository
+    }
+    
+    func reqKeywordResult(of dto: RequestDTO, completion: @escaping (Result<ResultResponseDTO, ResponseError>) -> Void) {
+        repository.reqKeywordResult(dto: dto) { completion($0) }
+    }
+
 }
 
 

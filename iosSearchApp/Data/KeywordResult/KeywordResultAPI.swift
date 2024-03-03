@@ -21,18 +21,13 @@ struct KeywordResultAPI: Network {
         makeProvider().request(.reqKeywordResult(dto)) { result in
             switch result {
             case let .success(response):
-                switch response.statusCode {
-                case 200:
-                    do {
-                        let model = try JSONDecoder().decode(ResultResponseDTO.self, from: response.data)
-                        completion(.success(model))
-                    } catch {
-                        completion(.failure(.decodeError))
-                    }
-                default:
-                    completion(.failure(.networkError))
+                do {
+                    let model = try JSONDecoder().decode(ResultResponseDTO.self, from: response.data)
+                    completion(.success(model))
+                } catch {
+                    completion(.failure(.decodeError))
                 }
-            case .failure(_):
+            case .failure:
                 completion(.failure(.networkError))
             }
         }

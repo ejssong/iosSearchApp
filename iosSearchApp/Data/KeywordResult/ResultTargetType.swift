@@ -28,14 +28,14 @@ extension ResultTargetType: BaseTargetType{
     var method: Method {
         switch self {
         case .reqKeywordResult:
-            return .post
+            return .get
         }
     }
     
     var task: Task{
         switch self{
         case .reqKeywordResult(let data):
-            return .requestJSONEncodable(data)
+            return .requestParameters(parameters: data.toDic!, encoding: URLEncoding.default)
         }
     }
 }

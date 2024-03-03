@@ -55,6 +55,12 @@ class SearchUpdateCell: UITableViewCell {
     
     func setModel(of model: SectionListModel) {
         keyword.text = model.value
-        date.text = "20223.44"
+        date.text = setDate(date: model.date)
+    }
+    
+    func setDate(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM.dd"
+        return dateFormatter.string(from: date)
     }
 }
