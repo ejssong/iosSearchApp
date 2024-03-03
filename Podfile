@@ -20,5 +20,7 @@ target 'iosSearchApp' do
   #Network
   pod 'SwiftyJSON', '~> 4.0'
   pod 'Moya'
-
+  
+  #Image
+  pod 'SDWebImage'
 end

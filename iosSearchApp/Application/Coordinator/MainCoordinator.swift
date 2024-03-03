@@ -10,6 +10,7 @@ import UIKit
 
 protocol MainCoordinatorDependencies {
     func makeMainViewController(actions: MainViewModelActions) -> MainViewController
+    func makeWebViewCoordinator(navigationController: UINavigationController) -> WebViewCoordinator
 }
 
 final class MainCoordinator {
@@ -22,8 +23,14 @@ final class MainCoordinator {
     }
     
     func moveToMain() {
-        let actions = MainViewModelActions()
+        let actions = MainViewModelActions(moveToMemo: moveToWebView)
         let mainVC = dependencies.makeMainViewController(actions: actions)
         navigation?.pushViewController(mainVC, animated: false)
+    }
+    
+    func moveToWebView(_ url: String) {
+        guard let navigation = navigation else { return }
+        let coordinator = dependencies.makeWebViewCoordinator(navigationController: navigation)
+        coordinator.moveToWebView(url)
     }
 }

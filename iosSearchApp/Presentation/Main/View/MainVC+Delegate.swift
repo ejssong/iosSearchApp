@@ -19,3 +19,9 @@ extension MainViewController: CustomFooterDelegate {
         viewModel.didTapRemoveAll()
     }
 }
+
+extension MainViewController: ResultViewDelegate {
+    func moveToLink(of url: String) {
+        viewModel.moveToWebView(url)
+    }
+}
