@@ -53,6 +53,7 @@ class MainViewController: UIViewController {
         setConfigCollectionDataSource()
         setConfigTableDataSource()
         bind()
+        itemSelectBind()
         resultVC.delegate = self
     }
     
@@ -128,6 +129,23 @@ class MainViewController: UIViewController {
             cell.setModel(of: model)
             return cell
         }
+    }
+    
+    private func itemSelectBind() {
+        Observable.of( layerView.tableView.rx.modelSelected(SectionListModel.self), layerView.collectionView.rx.modelSelected(SectionListModel.self))
+            .merge()
+            .subscribe(onNext: {[weak self] model in
+                guard let self = self else { return }
+                //1.텍스트 필드 입력
+                self.searchVC.searchBar.text = model.value
+                self.searchVC.isActive = true
+                //2.리스트 조회
+                self.viewModel.moveToResult(of: self.searchVC.searchBar.text ?? "", isInitial: false)
+                //3.결과 창 보여주기
+                self.searchVC.showsSearchResultsController = true
+                //4.키보드 내리기
+                self.searchVC.searchBar.endEditing(true)
+            }).disposed(by: disposeBag)
     }
 }
 

@@ -18,8 +18,8 @@ protocol MainViewModelInput{
     func didSearchCancel()                    //검색 캔슬
     func didTapRemoveKeyword(of index: Int)   //최근 검색어 삭제
     func didTapRemoveAll()                    //최근 검색어 전체 삭제
-    func moveToResult(of keyword: String)     //키워드 검색
     func moveToWebView(_ url: String)         //웹뷰 이동
+    func moveToResult(of keyword: String, isInitial: Bool)  //키워드 검색
 }
 
 protocol MainViewModelOutput {
@@ -54,7 +54,7 @@ final class DefaultMainViewModel: MainViewModel {
     }
     
     private func setModel() {
-        recentSearchList.accept([SectionModel(items: UserDefaultsManager.recentList ?? [] )])
+        recentSearchList.accept([SectionModel(items: UserDefaultsManager.recentList)])
     }
     
     /*
@@ -78,10 +78,11 @@ final class DefaultMainViewModel: MainViewModel {
     /**
      검색결과 화면
      - keyword: 입력한 검색어
+     - isInitial : 최근 검색어 저장 여부
      */
-    func moveToResult(of keyword: String) {
-        insertArray(with: keyword)
-       
+    func moveToResult(of keyword: String, isInitial: Bool = true) {
+        if isInitial { insertArray(with: keyword) }
+    
         usecase.reqKeywordResult(of: RequestDTO(q: keyword)) { [weak self] data in
             guard let self = self else { return }
             switch data {

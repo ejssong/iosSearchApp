@@ -32,6 +32,7 @@ class SearchUpdateCell: UITableViewCell {
     }
     
     func commonInit() {
+        selectionStyle = .none
         setUI()
         setConstraint()
     }
