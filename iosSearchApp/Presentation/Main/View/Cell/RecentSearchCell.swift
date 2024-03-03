@@ -12,7 +12,7 @@ import SnapKit
 import RxSwift
 
 protocol RecentSearchDelegate: AnyObject {
-    func deleteIndex(_ index: Int)
+    func delete(_ label: String)
 }
 
 class RecentSearchCell: UICollectionViewCell {
@@ -55,12 +55,6 @@ class RecentSearchCell: UICollectionViewCell {
         super.init(coder: coder)
     }
     
-    override func prepareForReuse() {
-        index = 0
-        delegate = nil
-        disposeBag = DisposeBag()
-    }
-    
     func commonInit() {
         setUI()
         setConstraint()
@@ -93,7 +87,8 @@ class RecentSearchCell: UICollectionViewCell {
             .throttle(.seconds(1), scheduler: MainScheduler.instance)
             .withUnretained(self)
             .subscribe(onNext: { (owner, _) in
-                owner.delegate?.deleteIndex(owner.index)
+                guard let text = owner.label.text else { return }
+                owner.delegate?.delete(text)
             }).disposed(by: disposeBag)
     }
 }

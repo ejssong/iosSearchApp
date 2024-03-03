@@ -138,7 +138,7 @@ class MainViewController: UIViewController {
                 guard let self = self else { return }
                 //1.텍스트 필드 입력
                 self.searchVC.searchBar.text = model.value
-                self.searchVC.isActive = true
+                self.searchVC.isActive       = true
                 //2.리스트 조회
                 self.viewModel.moveToResult(of: self.searchVC.searchBar.text ?? "", isInitial: false)
                 //3.결과 창 보여주기

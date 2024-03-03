@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 
 extension MainViewController: RecentSearchDelegate {
-    func deleteIndex(_ index: Int) {
-        viewModel.didTapRemoveKeyword(of: index)
+    func delete(_ label: String) {
+        viewModel.didTapRemoveKeyword(of: label)
     }
 }
 

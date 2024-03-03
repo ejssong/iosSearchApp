@@ -16,7 +16,7 @@ struct MainViewModelActions{
 protocol MainViewModelInput{
     func didSearchUpdate(of keyword: String)  //최근 검색 필터링
     func didSearchCancel()                    //검색 캔슬
-    func didTapRemoveKeyword(of index: Int)   //최근 검색어 삭제
+    func didTapRemoveKeyword(of text: String) //최근 검색어 삭제
     func didTapRemoveAll()                    //최근 검색어 전체 삭제
     func moveToWebView(_ url: String)         //웹뷰 이동
     func moveToResult(of keyword: String, isInitial: Bool)  //키워드 검색
@@ -54,7 +54,8 @@ final class DefaultMainViewModel: MainViewModel {
     }
     
     private func setModel() {
-        recentSearchList.accept([SectionModel(items: UserDefaultsManager.recentList)])
+        let list = UserDefaultsManager.recentList
+        recentSearchList.accept(list.isEmpty ? [] : [SectionModel(items: list)])
     }
     
     /*
@@ -97,10 +98,14 @@ final class DefaultMainViewModel: MainViewModel {
     /**
      선택한 키워드 삭제
      */
-    func didTapRemoveKeyword(of index: Int) {
-        guard var value = recentSearchList.value.first else { return }
-        value.items.remove(at: index)
-        recentSearchList.accept([value])
+    func didTapRemoveKeyword(of text: String) {
+        guard var list = recentSearchList.value.first?.items as? [SectionListModel],
+              let model = list.filter({ $0.value == text }).first,
+              let index = list.firstIndex(of: model) else { return }
+        
+        list.remove(at: index)
+        UserDefaultsManager.recentList = list
+        recentSearchList.accept(list.isEmpty ? [] : [SectionModel(items: list)])
     }
     
     /**
