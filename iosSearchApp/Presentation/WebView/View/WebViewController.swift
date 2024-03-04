@@ -33,6 +33,7 @@ class WebViewController: UIViewController, WKUIDelegate, WKNavigationDelegate{
         webView = WKWebView(frame: self.view.frame)
         webView.uiDelegate = self
         webView.navigationDelegate = self
+        webView.scrollView.bounces = false
         view = webView
     }
     
@@ -40,7 +41,7 @@ class WebViewController: UIViewController, WKUIDelegate, WKNavigationDelegate{
         super.viewDidLoad()
         bind()
     }
-    
+
     func bind() {
         viewModel.link
             .withUnretained(self)

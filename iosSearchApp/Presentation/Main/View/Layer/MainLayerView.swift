@@ -35,13 +35,6 @@ class MainLayerView: UIView {
         $0.contentInset = .zero
     }
     
-    let tableView = UITableView().then {
-        $0.backgroundColor = .white
-        $0.separatorStyle  = .none
-        $0.rowHeight = 40
-        $0.register(SearchUpdateCell.self, forCellReuseIdentifier: SearchUpdateCell.identifier)
-    }
-    
     var disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
@@ -59,15 +52,11 @@ class MainLayerView: UIView {
     }
     
     func setUI() {
-        [collectionView, tableView].forEach(addSubview(_:))
+        [collectionView].forEach(addSubview(_:))
     }
     
     func setConstraint() {
         collectionView.snp.makeConstraints{
-            $0.edges.equalToSuperview()
-        }
-        
-        tableView.snp.makeConstraints{
             $0.edges.equalToSuperview()
         }
     }

@@ -17,6 +17,9 @@ target 'iosSearchApp' do
   pod 'RxDataSources'
   pod 'RxKeyboard'
   
+  # ReactorKit
+  pod 'ReactorKit'
+  
   #Network
   pod 'SwiftyJSON', '~> 4.0'
   pod 'Moya'

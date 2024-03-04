@@ -20,10 +20,8 @@ class MainViewController: UIViewController {
         let search = UISearchController(searchResultsController: resultVC)
         search.searchBar.delegate = self
         search.searchResultsUpdater = self
-        
         search.searchBar.placeholder = "검색어를 입력해 주세요"
         search.hidesNavigationBarDuringPresentation = true
-        search.showsSearchResultsController = false
         return search
     }()
     
@@ -31,7 +29,6 @@ class MainViewController: UIViewController {
     
     var disposeBag = DisposeBag()
 
-    private var tableDataSource: RxTableViewSectionedReloadDataSource<SectionModel>!
     private var dataSource : RxCollectionViewSectionedAnimatedDataSource<SectionModel>!
      
     static func create(with viewModel: MainViewModel) -> MainViewController {
@@ -51,9 +48,8 @@ class MainViewController: UIViewController {
         setConstraint()
         setSearchView()
         setConfigCollectionDataSource()
-        setConfigTableDataSource()
-        bind()
         itemSelectBind()
+        bind()
         resultVC.delegate = self
     }
     
@@ -79,18 +75,20 @@ class MainViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.filterList
-            .bind(to: layerView.tableView.rx.items(dataSource: tableDataSource))
-            .disposed(by: disposeBag)
-
-        viewModel.isSearching
-            .distinctUntilChanged()
-            .drive(layerView.tableView.rx.isHidden)
-            .disposed(by: disposeBag)
-    
-        viewModel.resultList
-            .bind(to: resultVC.resultLayer.tableView.rx.items(dataSource: resultVC.dataSource))
+            .bind(to: resultVC.filterList )
             .disposed(by: disposeBag)
         
+        viewModel.resultList
+            .bind(to: resultVC.resultList )
+            .disposed(by: disposeBag)
+    
+        viewModel.searchType
+            .bind(to: resultVC.searchType )
+            .disposed(by: disposeBag)
+        
+        viewModel.isLoading
+            .bind(to: resultVC.isLoading )
+            .disposed(by: disposeBag)
     }
     
     private func setConfigCollectionDataSource() {
@@ -120,17 +118,9 @@ class MainViewController: UIViewController {
             }
         }
     }
-
-    private func setConfigTableDataSource() {
-        tableDataSource = RxTableViewSectionedReloadDataSource<SectionModel> { data, tableView, indexPath, item in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchUpdateCell.identifier, for: indexPath) as? SearchUpdateCell, let model = item as? SectionListModel else { return UITableViewCell() }
-            cell.setModel(of: model)
-            return cell
-        }
-    }
     
     private func itemSelectBind() {
-        Observable.of( layerView.tableView.rx.modelSelected(SectionListModel.self), layerView.collectionView.rx.modelSelected(SectionListModel.self))
+        Observable.of(resultVC.resultLayer.recentTableView.rx.modelSelected(SectionListModel.self), layerView.collectionView.rx.modelSelected(SectionListModel.self))
             .merge()
             .subscribe(onNext: {[weak self] model in
                 guard let self = self else { return }

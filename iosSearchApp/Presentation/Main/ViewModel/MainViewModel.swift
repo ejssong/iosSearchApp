@@ -9,6 +9,12 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+enum SearchType {
+    case isEmtpy
+    case isSearching
+    case isComplete
+}
+
 struct MainViewModelActions{
     let moveToMemo: (_ url: String) -> Void
 }
@@ -28,8 +34,8 @@ protocol MainViewModelOutput {
     var filterList : BehaviorRelay<[SectionModel]> { get set }
     var resultList : BehaviorRelay<[ResultResponseDTO]> { get set }
     var toastMessage: PublishSubject<String> { get set }
-    var isSearching : Driver<Bool> { get set }
-    var isComplete : Driver<Bool> { get set }
+    var searchType: BehaviorRelay<SearchType> { get set }
+    var isLoading: BehaviorRelay<Bool> { get set }
     var requestDTO : RequestDTO { get set }
     var isInComplete : Bool { get set }
 }
@@ -44,17 +50,15 @@ final class DefaultMainViewModel: MainViewModel {
     var recentSearchList: BehaviorRelay<[SectionModel]> = .init(value: [])
     var filterList : BehaviorRelay<[SectionModel]> = .init(value: [])
     var resultList : BehaviorRelay<[ResultResponseDTO]> = .init(value: [])
+    var searchType: BehaviorRelay<SearchType> = .init(value: .isEmtpy)
+    var isLoading: BehaviorRelay<Bool> = .init(value: false)
     var toastMessage: PublishSubject<String> = .init()
-    var isSearching : Driver<Bool>
-    var isComplete: Driver<Bool>
     var requestDTO: RequestDTO = RequestDTO()
     var isInComplete: Bool = false
 
     init(usecase: MainUseCase, actions: MainViewModelActions) {
         self.usecase = usecase
         self.actions = actions
-        isSearching = filterList.map{ $0.isEmpty }.asDriver(onErrorJustReturn: false)
-        isComplete = resultList.map{ !$0.isEmpty }.asDriver(onErrorJustReturn: false)
         setModel()
     }
     
@@ -67,6 +71,13 @@ final class DefaultMainViewModel: MainViewModel {
      검색 필터링
      */
     func didSearchUpdate(of keyword: String) {
+        if keyword.isEmpty{
+            didSearchCancel()
+            searchType.accept(.isEmtpy)
+            return
+        }
+        
+        searchType.accept(.isSearching)
         let list = UserDefaultsManager.recentList
         let value = list.sorted(by: { $0.date > $1.date }).filter{ $0.value.lowercased().contains(keyword) }
         
@@ -77,8 +88,8 @@ final class DefaultMainViewModel: MainViewModel {
      검색 취소
      */
     func didSearchCancel() {
-        filterList.accept([])
-        resultList.accept([])
+        filterList.accept(.init())
+        resultList.accept(.init())
     }
     
     /**
@@ -87,8 +98,9 @@ final class DefaultMainViewModel: MainViewModel {
      - isInitial : 최근 검색어 저장 여부
      */
     func moveToResult(of keyword: String) {
+        isLoading.accept(true)
+        searchType.accept(.isComplete)
         insertArray(with: keyword)
-        
         fetchItem(of: RequestDTO(q: keyword, page: 1))
     }
     
@@ -109,6 +121,7 @@ final class DefaultMainViewModel: MainViewModel {
         requestDTO = dto
         usecase.reqKeywordResult(of: dto) { [weak self] data in
             guard let self = self else { return }
+            self.isLoading.accept(false)
             switch data {
             case .success(let model):
                 self.appendList(model)

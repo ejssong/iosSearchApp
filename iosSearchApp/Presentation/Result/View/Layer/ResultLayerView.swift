@@ -10,10 +10,19 @@ import UIKit
 
 class ResultLayerView: UIView {
     
+    let recentTableView = UITableView().then {
+        $0.backgroundColor = .white
+        $0.separatorStyle  = .none
+        $0.rowHeight = 40
+        $0.register(SearchUpdateCell.self, forCellReuseIdentifier: SearchUpdateCell.identifier)
+    }
+    
     let tableView = UITableView().then {
         $0.backgroundColor = .white
         $0.separatorStyle  = .none
         $0.register(ResultCell.self, forCellReuseIdentifier: ResultCell.identifier)
+//        $0.register(IndicatorFooterView.self, forHeaderFooterViewReuseIdentifier: IndicatorFooterView.identifier)
+
     }
     
     override init(frame: CGRect) {
@@ -31,10 +40,14 @@ class ResultLayerView: UIView {
     }
     
     func setUI() {
-        addSubview(tableView)
+        [tableView, recentTableView].forEach(addSubview(_:))
     }
     
     func setConstraint() {
+        recentTableView.snp.makeConstraints{
+            $0.edges.equalToSuperview()
+        }
+        
         tableView.snp.makeConstraints{
             $0.edges.equalToSuperview()
         }
