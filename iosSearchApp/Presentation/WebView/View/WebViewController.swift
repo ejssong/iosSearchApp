@@ -46,4 +46,8 @@ class WebViewController: UIViewController, WKUIDelegate, WKNavigationDelegate{
                 owner.webView.load( URLRequest(url: url))
             }).disposed(by: disposeBag)
     }
+    
+    deinit {
+        print("\(#fileID) DEINIT" )
+    }
 }

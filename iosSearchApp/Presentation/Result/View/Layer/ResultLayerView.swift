@@ -10,13 +10,11 @@ import UIKit
 
 class ResultLayerView: UIView {
     
-    lazy var tableView: UITableView = {
-        let view = UITableView()
-        view.backgroundColor = .white
-        view.separatorStyle  = .none
-        view.register(ResultCell.self, forCellReuseIdentifier: ResultCell.identifier)
-        return view
-    }()
+    let tableView = UITableView().then {
+        $0.backgroundColor = .white
+        $0.separatorStyle  = .none
+        $0.register(ResultCell.self, forCellReuseIdentifier: ResultCell.identifier)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)

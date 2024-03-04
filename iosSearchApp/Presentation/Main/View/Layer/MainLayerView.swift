@@ -13,36 +13,34 @@ import RxCocoa
 import Then
 
 class MainLayerView: UIView {
+
+    let collectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: LeftAlignedCollectionViewFlowLayout().then{
+            $0.minimumLineSpacing         = 10
+            $0.minimumInteritemSpacing    = 8
+            $0.sectionInset               = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+            $0.estimatedItemSize          = UICollectionViewFlowLayout.automaticSize
+            $0.headerReferenceSize.height = 40
+            $0.footerReferenceSize.height = 40
+        }
+    ).then {
+        $0.isPagingEnabled              = false
+        $0.backgroundColor              = .clear
+        $0.showsVerticalScrollIndicator = false
+        $0.automaticallyAdjustsScrollIndicatorInsets = false
+        $0.register(RecentSearchCell.self, forCellWithReuseIdentifier: RecentSearchCell.identifier)
+        $0.register(CustomHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CustomHeaderView.identifier)
+        $0.register(CustomFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CustomFooterView.identifier)
+        $0.contentInset = .zero
+    }
     
-    lazy var collectionView : UICollectionView = {
-        let layout                        = LeftAlignedCollectionViewFlowLayout()
-        layout.minimumLineSpacing         = 10
-        layout.minimumInteritemSpacing    = 8
-        layout.sectionInset               = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        layout.estimatedItemSize          = UICollectionViewFlowLayout.automaticSize
-        layout.headerReferenceSize.height = 40
-        layout.footerReferenceSize.height = 40
-        
-        let view                          = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.isPagingEnabled              = false
-        view.backgroundColor              = .clear
-        view.showsVerticalScrollIndicator = false
-        view.automaticallyAdjustsScrollIndicatorInsets = false
-        view.register(RecentSearchCell.self, forCellWithReuseIdentifier: RecentSearchCell.identifier)
-        view.register(CustomHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CustomHeaderView.identifier)
-        view.register(CustomFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: CustomFooterView.identifier)
-        view.contentInset = .zero
-        return view
-    }()
-    
-    lazy var tableView: UITableView = {
-        let view = UITableView()
-        view.backgroundColor = .white
-        view.separatorStyle  = .none
-        view.rowHeight = 40
-        view.register(SearchUpdateCell.self, forCellReuseIdentifier: SearchUpdateCell.identifier)
-        return view
-    }()
+    let tableView = UITableView().then {
+        $0.backgroundColor = .white
+        $0.separatorStyle  = .none
+        $0.rowHeight = 40
+        $0.register(SearchUpdateCell.self, forCellReuseIdentifier: SearchUpdateCell.identifier)
+    }
     
     var disposeBag = DisposeBag()
     
