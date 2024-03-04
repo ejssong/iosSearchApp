@@ -34,10 +34,12 @@ protocol MainViewModelOutput {
     var filterList : BehaviorRelay<[SectionModel]> { get set }
     var resultList : BehaviorRelay<[ResultResponseDTO]> { get set }
     var toastMessage: PublishSubject<String> { get set }
+    var rateLimit: BehaviorRelay<ResultRateLimit?> { get set }
     var searchType: BehaviorRelay<SearchType> { get set }
     var isLoading: BehaviorRelay<Bool> { get set }
     var requestDTO : RequestDTO { get set }
     var isInComplete : Bool { get set }
+   
 }
 
 protocol MainViewModel: MainViewModelInput, MainViewModelOutput { }
@@ -51,6 +53,7 @@ final class DefaultMainViewModel: MainViewModel {
     var filterList : BehaviorRelay<[SectionModel]> = .init(value: [])
     var resultList : BehaviorRelay<[ResultResponseDTO]> = .init(value: [])
     var searchType: BehaviorRelay<SearchType> = .init(value: .isEmtpy)
+    var rateLimit: BehaviorRelay<ResultRateLimit?> = .init(value: nil)
     var isLoading: BehaviorRelay<Bool> = .init(value: false)
     var toastMessage: PublishSubject<String> = .init()
     var requestDTO: RequestDTO = RequestDTO()
@@ -124,7 +127,7 @@ final class DefaultMainViewModel: MainViewModel {
             self.isLoading.accept(false)
             switch data {
             case .success(let model):
-                self.appendList(model)
+                model.error.message.isEmpty ? self.appendList(model) : self.rateLimit(model.error)
             case .failure(let error):
                 self.toastMessage.onNext(error.localizedDescription)
             }
@@ -135,7 +138,6 @@ final class DefaultMainViewModel: MainViewModel {
      */
     func appendList(_ model: ResultResponseDTO) {
         isInComplete = model.incomplete
-        
         guard var value = resultList.value.first else {
             resultList.accept([model])
             return
@@ -193,4 +195,10 @@ final class DefaultMainViewModel: MainViewModel {
         actions.moveToMemo(url)
     }
     
+    /**
+     리스트 조회 에러 (API 조회 횟수 초과)
+     */
+    func rateLimit(_ model: ResultRateLimit?) {
+        rateLimit.accept(model)
+    }
 }

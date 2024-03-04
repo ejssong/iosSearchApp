@@ -89,6 +89,10 @@ class MainViewController: UIViewController {
         viewModel.isLoading
             .bind(to: resultVC.isLoading )
             .disposed(by: disposeBag)
+        
+        viewModel.rateLimit
+            .bind(to: resultVC.rateLimit )
+            .disposed(by: disposeBag)
     }
     
     private func setConfigCollectionDataSource() {

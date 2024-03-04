@@ -12,11 +12,13 @@ struct ResultResponseDTO : Decodable {
     var totalCnt : Int
     var incomplete: Bool
     var items : [ResultItem]
+    var error : ResultRateLimit
     
     enum CodingKeys : String, CodingKey {
         case totalCnt = "total_count"
         case incomplete = "incomplete_results"
         case items
+        case error
     }
     
     init(from decoder: Decoder) throws {
@@ -24,6 +26,7 @@ struct ResultResponseDTO : Decodable {
         totalCnt      = (try? container.decode(Int.self, forKey: .totalCnt)) ?? 0
         incomplete    = (try? container.decode(Bool.self, forKey: .incomplete)) ?? true
         items         = (try? container.decode([ResultItem].self, forKey: .items )) ?? []
+        error         = (try? ResultRateLimit(from: decoder)) ?? ResultRateLimit()
     }
 }
 
@@ -89,4 +92,26 @@ class ResultOwner: SectionViewModel, Codable, Hashable {
     static func == (lhs: ResultOwner, rhs: ResultOwner) -> Bool {
         return lhs.login == rhs.login
     }
+}
+
+/**
+ [API Rate Liimit]
+ : 검색 횟수 초과
+ */
+struct ResultRateLimit {
+    var message: String = ""
+    var url: String = ""
+    
+    enum CodingKeys : String, CodingKey {
+        case message
+        case url = "documentation_url"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        message       = (try? container.decode(String.self, forKey: .message)) ?? ""
+        url           = (try? container.decode(String.self, forKey: .url)) ?? ""
+    }
+    
+    init() {}
 }

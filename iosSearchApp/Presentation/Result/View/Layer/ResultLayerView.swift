@@ -22,7 +22,10 @@ class ResultLayerView: UIView {
         $0.separatorStyle  = .none
         $0.register(ResultCell.self, forCellReuseIdentifier: ResultCell.identifier)
 //        $0.register(IndicatorFooterView.self, forHeaderFooterViewReuseIdentifier: IndicatorFooterView.identifier)
-
+    }
+    
+    let rateLimiView = RateLimitView().then{
+        $0.isHidden = true
     }
     
     override init(frame: CGRect) {
@@ -40,7 +43,7 @@ class ResultLayerView: UIView {
     }
     
     func setUI() {
-        [tableView, recentTableView].forEach(addSubview(_:))
+        [tableView, recentTableView, rateLimiView].forEach(addSubview(_:))
     }
     
     func setConstraint() {
@@ -50,6 +53,11 @@ class ResultLayerView: UIView {
         
         tableView.snp.makeConstraints{
             $0.edges.equalToSuperview()
+        }
+        
+        rateLimiView.snp.makeConstraints{
+            $0.left.right.equalToSuperview().inset(16)
+            $0.centerY.equalToSuperview()
         }
     }
 }

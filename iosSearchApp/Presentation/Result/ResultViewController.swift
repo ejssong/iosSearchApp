@@ -14,6 +14,7 @@ import RxCocoa
 protocol ResultViewDelegate: AnyObject {
     func moveToLink(of url: String)
     func nextPageScroll()
+    func hideSearchVC(with value: Bool)
 }
 
 class ResultViewController: UIViewController {
@@ -30,6 +31,8 @@ class ResultViewController: UIViewController {
     var resultDataSource: RxTableViewSectionedReloadDataSource<ResultResponseDTO>!
     
     var searchType: BehaviorRelay<SearchType> = .init(value: .isEmtpy)
+    
+    var rateLimit : BehaviorRelay<ResultRateLimit?> = .init(value: nil)
     
     var filterList : BehaviorRelay<[SectionModel]> = .init(value: [])
     
@@ -89,6 +92,14 @@ class ResultViewController: UIViewController {
     }
     
     func bind() {
+        rateLimit
+            .withUnretained(self)
+            .subscribe(onNext: { (owner, model) in
+                guard let model = model else { return }
+                owner.resultLayer.rateLimiView.isHidden = false
+                owner.resultLayer.rateLimiView.setUI(model)
+            }).disposed(by: disposeBag)
+        
         isLoading
             .distinctUntilChanged()
             .withUnretained(self)
@@ -101,6 +112,8 @@ class ResultViewController: UIViewController {
             .distinctUntilChanged()
             .withUnretained(self)
             .subscribe(onNext: { (owner, type) in
+                owner.resultLayer.rateLimiView.isHidden = true
+                owner.delegate?.hideSearchVC(with: type == .isEmtpy)
                 owner.resultLayer.tableView.isHidden = type != .isComplete
                 owner.resultLayer.recentTableView.isHidden = type != .isSearching
             }).disposed(by: disposeBag)

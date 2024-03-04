@@ -21,6 +21,10 @@ extension MainViewController: CustomFooterDelegate {
 }
 
 extension MainViewController: ResultViewDelegate {
+    func hideSearchVC(with value: Bool) {
+        searchVC.showsSearchResultsController = !value
+    }
+    
     func moveToLink(of url: String) {
         viewModel.moveToWebView(url)
     }
