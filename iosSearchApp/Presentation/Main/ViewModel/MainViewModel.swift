@@ -19,16 +19,19 @@ protocol MainViewModelInput{
     func didTapRemoveKeyword(of text: String) //최근 검색어 삭제
     func didTapRemoveAll()                    //최근 검색어 전체 삭제
     func moveToWebView(_ url: String)         //웹뷰 이동
-    func moveToResult(of keyword: String, isInitial: Bool)  //키워드 검색
+    func moveToResult(of keyword: String)  //키워드 검색
+    func nextPageScroll()                   //다음 페이지 로드
 }
 
 protocol MainViewModelOutput {
     var recentSearchList: BehaviorRelay<[SectionModel]> { get set }
     var filterList : BehaviorRelay<[SectionModel]> { get set }
     var resultList : BehaviorRelay<[ResultResponseDTO]> { get set }
-    var toastMessage: PublishSubject<String> { get set}
+    var toastMessage: PublishSubject<String> { get set }
     var isSearching : Driver<Bool> { get set }
     var isComplete : Driver<Bool> { get set }
+    var requestDTO : RequestDTO { get set }
+    var isInComplete : Bool { get set }
 }
 
 protocol MainViewModel: MainViewModelInput, MainViewModelOutput { }
@@ -44,11 +47,13 @@ final class DefaultMainViewModel: MainViewModel {
     var toastMessage: PublishSubject<String> = .init()
     var isSearching : Driver<Bool>
     var isComplete: Driver<Bool>
-    
+    var requestDTO: RequestDTO = RequestDTO()
+    var isInComplete: Bool = false
+
     init(usecase: MainUseCase, actions: MainViewModelActions) {
         self.usecase = usecase
         self.actions = actions
-        isSearching = filterList.map{ !$0.isEmpty }.asDriver(onErrorJustReturn: false)
+        isSearching = filterList.map{ $0.isEmpty }.asDriver(onErrorJustReturn: false)
         isComplete = resultList.map{ !$0.isEmpty }.asDriver(onErrorJustReturn: false)
         setModel()
     }
@@ -81,18 +86,49 @@ final class DefaultMainViewModel: MainViewModel {
      - keyword: 입력한 검색어
      - isInitial : 최근 검색어 저장 여부
      */
-    func moveToResult(of keyword: String, isInitial: Bool = true) {
-        if isInitial { insertArray(with: keyword) }
+    func moveToResult(of keyword: String) {
+        insertArray(with: keyword)
+        
+        fetchItem(of: RequestDTO(q: keyword, page: 1))
+    }
     
-        usecase.reqKeywordResult(of: RequestDTO(q: keyword)) { [weak self] data in
+    /**
+     다음 페이지 조회
+     */
+    func nextPageScroll() {
+        guard !isInComplete else { return }
+        var dto = requestDTO
+        dto.page += 1
+        fetchItem(of: dto)
+    }
+    
+    /**
+    리스트 조회
+     */
+    func fetchItem(of dto: RequestDTO) {
+        requestDTO = dto
+        usecase.reqKeywordResult(of: dto) { [weak self] data in
             guard let self = self else { return }
             switch data {
             case .success(let model):
-                self.resultList.accept([model])
+                self.appendList(model)
             case .failure(let error):
                 self.toastMessage.onNext(error.localizedDescription)
             }
         }
+    }
+    /**
+     리스트 합치기
+     */
+    func appendList(_ model: ResultResponseDTO) {
+        isInComplete = model.incomplete
+        
+        guard var value = resultList.value.first else {
+            resultList.accept([model])
+            return
+        }
+        value.items += model.items
+        resultList.accept([value])
     }
     
     /**
@@ -109,6 +145,27 @@ final class DefaultMainViewModel: MainViewModel {
     }
     
     /**
+     최근 검색어  추가
+     1. 해당 검색어가 이미 존재 한다면 지우고 새로 추가
+     2. 10개 넘어가면 마지막 삭제 후 추가
+     */
+    func insertArray(with keyword: String) {
+        var value = UserDefaultsManager.recentList
+        
+        if let model = value.filter({ $0.value == keyword }).first,
+           let index = value.firstIndex(of: model) {
+            value.remove(at: index)
+        }
+        
+        if value.count == 10 {
+            value.removeLast()
+        }
+        value.insert(SectionListModel(value: keyword), at: 0)
+        UserDefaultsManager.recentList = value
+        setModel()
+    }
+
+    /**
      키워드 전체 삭제
      */
     func didTapRemoveAll() {
@@ -123,13 +180,4 @@ final class DefaultMainViewModel: MainViewModel {
         actions.moveToMemo(url)
     }
     
-    func insertArray(with keyword: String) {
-        var value = UserDefaultsManager.recentList
-        if value.count == 10 {
-            value.removeLast()
-        }
-        value.insert(SectionListModel(value: keyword), at: 0)
-        UserDefaultsManager.recentList = value
-        setModel()
-    }
 }

@@ -84,15 +84,13 @@ class MainViewController: UIViewController {
 
         viewModel.isSearching
             .distinctUntilChanged()
-            .drive{ [weak self] value in
-                self?.layerView.tableView.isHidden = !value
-                self?.layerView.collectionView.isHidden = value
-            }.disposed(by: disposeBag)
-        
+            .drive(layerView.tableView.rx.isHidden)
+            .disposed(by: disposeBag)
+    
         viewModel.resultList
             .bind(to: resultVC.resultLayer.tableView.rx.items(dataSource: resultVC.dataSource))
             .disposed(by: disposeBag)
-
+        
     }
     
     private func setConfigCollectionDataSource() {
@@ -140,7 +138,7 @@ class MainViewController: UIViewController {
                 self.searchVC.searchBar.text = model.value
                 self.searchVC.isActive       = true
                 //2.리스트 조회
-                self.viewModel.moveToResult(of: self.searchVC.searchBar.text ?? "", isInitial: false)
+                self.viewModel.moveToResult(of: self.searchVC.searchBar.text ?? "")
                 //3.결과 창 보여주기
                 self.searchVC.showsSearchResultsController = true
                 //4.키보드 내리기

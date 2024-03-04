@@ -7,11 +7,13 @@
 
 
 struct RequestDTO: Codable {
-    var q: String
+    var q: String = ""
     var page: Int = 1
     
     init(q: String, page: Int = 1) {
         self.q = q
         self.page = page
     }
+    
+    init() { }
 }

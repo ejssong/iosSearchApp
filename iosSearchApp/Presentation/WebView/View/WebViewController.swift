@@ -13,7 +13,10 @@ import RxSwift
 
 class WebViewController: UIViewController, WKUIDelegate, WKNavigationDelegate{
     
-    var webView = WKWebView()
+    var webView = WKWebView().then{
+        $0.scrollView.bounces = false
+        $0.scrollView.contentInset = .zero
+    }
     
     var viewModel: WebViewModel!
     

@@ -24,4 +24,9 @@ extension MainViewController: ResultViewDelegate {
     func moveToLink(of url: String) {
         viewModel.moveToWebView(url)
     }
+    
+    func nextPageScroll() {
+        viewModel.nextPageScroll()
+    }
+    
 }

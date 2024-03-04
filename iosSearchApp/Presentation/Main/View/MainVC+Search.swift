@@ -11,7 +11,7 @@ import UIKit
 extension MainViewController: UISearchBarDelegate, UISearchResultsUpdating {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        viewModel.moveToResult(of: searchBar.text ?? "", isInitial: true)
+        viewModel.moveToResult(of: searchBar.text ?? "")
         searchVC.showsSearchResultsController = true
     }
     

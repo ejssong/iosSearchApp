@@ -13,6 +13,7 @@ import RxCocoa
 
 protocol ResultViewDelegate: AnyObject {
     func moveToLink(of url: String)
+    func nextPageScroll()
 }
 
 class ResultViewController: UIViewController {
@@ -22,7 +23,7 @@ class ResultViewController: UIViewController {
     var dataSource: RxTableViewSectionedReloadDataSource<ResultResponseDTO>!
     
     weak var delegate : ResultViewDelegate?
-    var dispoesBag = DisposeBag()
+    var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +66,18 @@ class ResultViewController: UIViewController {
             .subscribe(onNext: { (owner, item ) in
                 guard let url = item.owner?.url else { return }
                 owner.delegate?.moveToLink(of: url)
-            }).disposed(by: dispoesBag)
-    }
+            }).disposed(by: disposeBag)
+        
+        resultLayer.tableView.rx.prefetchRows
+            .throttle(.seconds(1), scheduler: MainScheduler.asyncInstance)
+            .observe(on: MainScheduler.asyncInstance)
+            .asObservable()
+            .withUnretained(self)
+            .subscribe(onNext: { (owner, item) in
+                owner.delegate?.nextPageScroll()
+            }).disposed(by: disposeBag)
+
+        
+     }
     
 }
