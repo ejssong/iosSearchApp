@@ -93,6 +93,10 @@ class MainViewController: UIViewController {
         viewModel.rateLimit
             .bind(to: resultVC.rateLimit )
             .disposed(by: disposeBag)
+        
+        viewModel.isInComplete
+            .bind(to: resultVC.isInComplete )
+            .disposed(by: disposeBag)
     }
     
     private func setConfigCollectionDataSource() {

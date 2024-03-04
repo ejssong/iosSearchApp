@@ -40,6 +40,8 @@ class ResultViewController: UIViewController {
     
     var isLoading : BehaviorRelay<Bool> = .init(value: false)
     
+    var isInComplete : BehaviorRelay<Bool> = .init(value: false)
+    
     weak var delegate : ResultViewDelegate?
     var disposeBag = DisposeBag()
     
@@ -54,6 +56,7 @@ class ResultViewController: UIViewController {
         setConfigTableDataSource()
         setConfigRecentTableDataSource()
         bind()
+        resultLayer.tableView.delegate = self
     }
     
     func setUI() {
@@ -108,6 +111,14 @@ class ResultViewController: UIViewController {
                 
             }).disposed(by: disposeBag)
         
+        isInComplete
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .subscribe(onNext: { (owner, type) in
+                owner.indicatorView.stopAnimating()
+                owner.resultLayer.tableView.tableFooterView = nil
+            }).disposed(by: disposeBag)
+        
         searchType
             .distinctUntilChanged()
             .withUnretained(self)
@@ -134,7 +145,8 @@ class ResultViewController: UIViewController {
             }).disposed(by: disposeBag)
         
         resultLayer.tableView.rx.prefetchRows
-            .throttle(.seconds(1), scheduler: MainScheduler.asyncInstance)
+            .filter{_ in !self.isInComplete.value || !self.isLoading.value }
+            .throttle(.seconds(10), scheduler: MainScheduler.asyncInstance)
             .observe(on: MainScheduler.asyncInstance)
             .asObservable()
             .withUnretained(self)
@@ -143,4 +155,16 @@ class ResultViewController: UIViewController {
             }).disposed(by: disposeBag)
      }
     
+}
+
+extension ResultViewController: UITableViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        //스크롤 끝난지점
+        guard !isInComplete.value else { return }
+        if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height {
+            let footerView = resultLayer.tableView.dequeueReusableHeaderFooterView(withIdentifier: IndicatorFooterView.identifier) as? IndicatorFooterView
+            resultLayer.tableView.tableFooterView = footerView
+            delegate?.nextPageScroll()
+        }
+    }
 }

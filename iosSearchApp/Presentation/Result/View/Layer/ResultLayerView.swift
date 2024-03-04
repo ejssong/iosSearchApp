@@ -21,7 +21,7 @@ class ResultLayerView: UIView {
         $0.backgroundColor = .white
         $0.separatorStyle  = .none
         $0.register(ResultCell.self, forCellReuseIdentifier: ResultCell.identifier)
-//        $0.register(IndicatorFooterView.self, forHeaderFooterViewReuseIdentifier: IndicatorFooterView.identifier)
+        $0.register(IndicatorFooterView.self, forHeaderFooterViewReuseIdentifier: IndicatorFooterView.identifier)
     }
     
     let rateLimiView = RateLimitView().then{

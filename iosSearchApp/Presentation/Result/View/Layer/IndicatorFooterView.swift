@@ -19,6 +19,7 @@ final class IndicatorFooterView: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         commonInit()
+        indicatorView.startAnimating()
     }
     
     required init?(coder: NSCoder) {
