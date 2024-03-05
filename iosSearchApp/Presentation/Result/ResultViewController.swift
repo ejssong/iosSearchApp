@@ -97,17 +97,15 @@ class ResultViewController: UIViewController {
             }.disposed(by: disposeBag)
         
         viewModel.output.isLoading
-            .distinctUntilChanged()
             .withUnretained(self)
             .subscribe{ owner, type in
                 type ? owner.indicatorView.startAnimating() : owner.indicatorView.stopAnimating()
             }.disposed(by: disposeBag)
         
-        Observable.of( viewModel.output.isComplete, viewModel.output.isError )
+        Observable.of(viewModel.output.isComplete, viewModel.output.isError)
             .merge()
             .withUnretained(self)
             .subscribe{ owner, type in
-                owner.indicatorView.stopAnimating()
                 owner.resultLayer.tableView.tableFooterView = nil
             }.disposed(by: disposeBag)
         
