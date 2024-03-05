@@ -103,8 +103,8 @@ class ResultViewController: UIViewController {
                 type ? owner.indicatorView.startAnimating() : owner.indicatorView.stopAnimating()
             }.disposed(by: disposeBag)
         
-        viewModel.output.isInComplete
-            .distinctUntilChanged()
+        Observable.of( viewModel.output.isComplete, viewModel.output.isError )
+            .merge()
             .withUnretained(self)
             .subscribe{ owner, type in
                 owner.indicatorView.stopAnimating()
@@ -137,21 +137,21 @@ class ResultViewController: UIViewController {
             }.disposed(by: disposeBag)
         
         resultLayer.tableView.rx.prefetchRows
-            .throttle(.seconds(5), scheduler: MainScheduler.asyncInstance)
+            .throttle(.seconds(3), scheduler: MainScheduler.asyncInstance)
             .observe(on: MainScheduler.asyncInstance)
             .asObservable()
             .withUnretained(self)
+            .filter{ owner, value in
+                guard !owner.viewModel.output.isError.value else {
+                    return false
+                }
+                let isComplete = owner.viewModel.output.isComplete.value
+                let isLoading = owner.viewModel.output.isLoading.value
+                
+                return !isComplete && !isLoading
+            }
             .subscribe{ (owner, item) in
                 owner.delegate?.nextPageScroll()
-            }.disposed(by: disposeBag)
-        
-        resultLayer.tableView.rx.willDisplayCell
-            .withUnretained(self)
-            .filter{ (owner, value) in
-                !owner.resultLayer.tableView.isLast(for: value.indexPath)
-            }
-            .subscribe{ owner, item in
-                owner.setFooterView()
             }.disposed(by: disposeBag)
     }
     
@@ -162,9 +162,23 @@ class ResultViewController: UIViewController {
 }
 
 extension ResultViewController: UITableViewDelegate {
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        guard !viewModel.output.isError.value else { return }
+
+        if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height {
+            let isComplete = viewModel.output.isComplete.value
+            let isLoading = viewModel.output.isLoading.value
+            // 최하단 (true)  && 다음 페이지 O (false) && 로딩 X (false)
+            guard !isComplete && !isLoading else { return }
+            setFooterView()
+        }
+    }
+        
     func setFooterView() {
         let footerView = resultLayer.tableView.dequeueReusableHeaderFooterView(withIdentifier: IndicatorFooterView.identifier) as? IndicatorFooterView
         resultLayer.tableView.tableFooterView = footerView
+        footerView?.indicatorView.startAnimating()
         delegate?.nextPageScroll()
     }
 }

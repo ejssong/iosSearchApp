@@ -96,8 +96,12 @@ class MainViewController: UIViewController {
             .bind(to: resultVC.viewModel.output.rateLimit )
             .disposed(by: disposeBag)
         
-        viewModel.isInComplete
-            .bind(to: resultVC.viewModel.output.isInComplete )
+        viewModel.isComplete
+            .bind(to: resultVC.viewModel.output.isComplete )
+            .disposed(by: disposeBag)
+        
+        viewModel.isError
+            .bind(to: resultVC.viewModel.output.isError )
             .disposed(by: disposeBag)
     }
     

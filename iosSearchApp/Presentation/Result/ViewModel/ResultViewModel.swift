@@ -17,7 +17,8 @@ final class ResultViewModel {
         var filterList : PublishSubject<[SectionModel]> = .init()
         var resultList : BehaviorRelay<[ResultResponseDTO]> = .init(value: [])
         var isLoading : BehaviorRelay<Bool> = .init(value: false)
-        var isInComplete : BehaviorRelay<Bool> = .init(value: false)
+        var isComplete : BehaviorRelay<Bool> = .init(value: false)
+        var isError: BehaviorRelay<Bool> = .init(value: false)
     }
     
     var output : Output        = Output()

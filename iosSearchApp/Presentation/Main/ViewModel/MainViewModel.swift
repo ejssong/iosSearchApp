@@ -38,7 +38,8 @@ protocol MainViewModelOutput {
     var searchType: BehaviorRelay<SearchType> { get set }
     var isLoading: BehaviorRelay<Bool> { get set }
     var requestDTO : RequestDTO { get set }
-    var isInComplete : BehaviorRelay<Bool> { get set }
+    var isComplete : BehaviorRelay<Bool> { get set }
+    var isError : BehaviorRelay<Bool> { get set }
    
 }
 
@@ -57,7 +58,8 @@ final class DefaultMainViewModel: MainViewModel {
     var isLoading: BehaviorRelay<Bool> = .init(value: false)
     var toastMessage: PublishSubject<String> = .init()
     var requestDTO: RequestDTO = RequestDTO()
-    var isInComplete: BehaviorRelay<Bool> = .init(value: false)
+    var isComplete: BehaviorRelay<Bool> = .init(value: false)
+    var isError: BehaviorRelay<Bool> = .init(value: false)
 
     init(usecase: MainUseCase, actions: MainViewModelActions) {
         self.usecase = usecase
@@ -93,6 +95,7 @@ final class DefaultMainViewModel: MainViewModel {
     func didSearchCancel() {
         filterList.accept(.init())
         resultList.accept(.init())
+        isError.accept(.init())
     }
     
     /**
@@ -102,6 +105,7 @@ final class DefaultMainViewModel: MainViewModel {
      */
     func moveToResult(of keyword: String) {
         isLoading.accept(true)
+        isComplete.accept(.init())
         searchType.accept(.isComplete)
         insertArray(with: keyword)
         fetchItem(of: RequestDTO(q: keyword, page: 1))
@@ -111,7 +115,7 @@ final class DefaultMainViewModel: MainViewModel {
      다음 페이지 조회
      */
     func nextPageScroll() {
-        guard !isInComplete.value || isLoading.value else { return }
+        guard !isComplete.value || !isLoading.value else { return }
         var dto = requestDTO
         dto.page += 1
         fetchItem(of: dto)
@@ -122,13 +126,14 @@ final class DefaultMainViewModel: MainViewModel {
      */
     func fetchItem(of dto: RequestDTO) {
         requestDTO = dto
+        print("DTO >> \(dto)")
         usecase.reqKeywordResult(of: dto) { [weak self] data in
             guard let self = self else { return }
             self.isLoading.accept(false)
             switch data {
             case .success(let model):
-                self.isInComplete.accept(model.incomplete)
-                model.error.message.isEmpty ? self.appendList(model) : self.rateLimit(model.error)
+                print("model >> \(model.error)")
+                self.appendList(model)
             case .failure(let error):
                 self.toastMessage.onNext(error.localizedDescription)
             }
@@ -138,12 +143,18 @@ final class DefaultMainViewModel: MainViewModel {
      리스트 합치기
      */
     func appendList(_ model: ResultResponseDTO) {
+        guard model.error.message.isEmpty else {
+            rateLimit(model.error)
+            return
+        }
+        
         guard var value = resultList.value.first else {
             resultList.accept([model])
             return
         }
         value.items += model.items
         resultList.accept([value])
+        isComplete.accept(model.incomplete || (model.totalCnt == value.items.count))
     }
     
     /**
@@ -185,7 +196,7 @@ final class DefaultMainViewModel: MainViewModel {
      */
     func didTapRemoveAll() {
         UserDefaultsManager.recentList.removeAll()
-        recentSearchList.accept([])
+        recentSearchList.accept(.init())
     }
     
     /**
@@ -199,6 +210,7 @@ final class DefaultMainViewModel: MainViewModel {
      리스트 조회 에러 (API 조회 횟수 초과)
      */
     func rateLimit(_ model: ResultRateLimit?) {
+        isError.accept(true)
         if resultList.value.isEmpty {
             rateLimit.accept(model)
         }
