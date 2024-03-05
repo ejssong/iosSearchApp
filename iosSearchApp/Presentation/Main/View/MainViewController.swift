@@ -104,7 +104,6 @@ class MainViewController: UIViewController {
     private func setConfigCollectionDataSource() {
         dataSource = RxCollectionViewSectionedAnimatedDataSource<SectionModel>(animationConfiguration: AnimationConfiguration(insertAnimation: .top, reloadAnimation: .fade, deleteAnimation: .left)) { data, collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchCell.identifier, for: indexPath) as? RecentSearchCell, let model = item as? SectionListModel else { return UICollectionViewCell() }
-            cell.index = indexPath.row
             cell.label.text = model.value
             cell.delegate = self
             return cell

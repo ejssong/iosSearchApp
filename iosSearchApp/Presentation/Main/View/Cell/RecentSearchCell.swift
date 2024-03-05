@@ -40,8 +40,7 @@ class RecentSearchCell: UICollectionViewCell {
         $0.setImage(UIImage(systemName: "xmark.circle"), for: .normal)
         $0.tintColor = UIColor(named: "Label")
     }
-    
-    var index: Int = 0
+
     weak var delegate : RecentSearchDelegate?
     
     var disposeBag = DisposeBag()
