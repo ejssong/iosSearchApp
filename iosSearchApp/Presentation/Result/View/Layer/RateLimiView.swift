@@ -20,10 +20,12 @@ class RateLimitView: UIView {
         $0.numberOfLines = 0
     }
     
-    let url = UILabel().then {
+    let url = UITextView().then {
         $0.textColor = .gray
         $0.font = .systemFont(ofSize: 13, weight: .regular)
-        $0.numberOfLines = 0 
+        $0.isEditable = false
+        $0.isScrollEnabled = false
+        $0.dataDetectorTypes = .link
     }
     
     override init(frame: CGRect) {

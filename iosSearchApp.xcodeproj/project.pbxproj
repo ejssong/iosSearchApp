@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		669896962B95891200FD22EA /* IndicatorFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669896952B95891200FD22EA /* IndicatorFooterView.swift */; };
+		66D1B7652B970E9700C73D86 /* UITableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D1B7642B970E9700C73D86 /* UITableView+.swift */; };
 		951F7B9B2B931912008B5808 /* SectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7B9A2B931912008B5808 /* SectionModel.swift */; };
 		951F7BB42B935EBF008B5808 /* MainVC+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BB32B935EBF008B5808 /* MainVC+Search.swift */; };
 		951F7BB72B9362FB008B5808 /* BaseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BB62B9362FB008B5808 /* BaseTargetType.swift */; };
@@ -57,6 +58,7 @@
 		0E7977BC12C244BC0EB30175 /* Pods-iosSearchApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosSearchApp.debug.xcconfig"; path = "Target Support Files/Pods-iosSearchApp/Pods-iosSearchApp.debug.xcconfig"; sourceTree = "<group>"; };
 		15820D598A0B89476B9A3330 /* Pods-iosSearchApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosSearchApp.release.xcconfig"; path = "Target Support Files/Pods-iosSearchApp/Pods-iosSearchApp.release.xcconfig"; sourceTree = "<group>"; };
 		669896952B95891200FD22EA /* IndicatorFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorFooterView.swift; sourceTree = "<group>"; };
+		66D1B7642B970E9700C73D86 /* UITableView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+.swift"; sourceTree = "<group>"; };
 		951F7B9A2B931912008B5808 /* SectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionModel.swift; sourceTree = "<group>"; };
 		951F7BB32B935EBF008B5808 /* MainVC+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainVC+Search.swift"; sourceTree = "<group>"; };
 		951F7BB62B9362FB008B5808 /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
@@ -402,6 +404,7 @@
 				9570ABB22B917D5C00508D7E /* UINavigation+.swift */,
 				9570ABBF2B91924600508D7E /* LeftAlignedCollectionViewFlowLayout.swift */,
 				951F7BFD2B947EB3008B5808 /* Encodable.swift */,
+				66D1B7642B970E9700C73D86 /* UITableView+.swift */,
 			);
 			path = Extention;
 			sourceTree = "<group>";
@@ -592,6 +595,7 @@
 				95DD7F632B916BD6002E8666 /* MainViewController.swift in Sources */,
 				951F7BEC2B9437B2008B5808 /* SearchUpdateCell.swift in Sources */,
 				9570ABB02B91795D00508D7E /* MainRepositoryProtocol.swift in Sources */,
+				66D1B7652B970E9700C73D86 /* UITableView+.swift in Sources */,
 				951F7BBE2B936399008B5808 /* MainRepository.swift in Sources */,
 				95D5F1142B95F41500020483 /* RateLimiView.swift in Sources */,
 				951F7BE92B9435A6008B5808 /* ResultLayerView.swift in Sources */,

@@ -31,7 +31,7 @@ class ResultViewController: UIViewController {
     var resultDataSource: RxTableViewSectionedReloadDataSource<ResultResponseDTO>!
     
     weak var delegate : ResultViewDelegate?
-
+    
     var viewModel = ResultViewModel()
     
     var disposeBag = DisposeBag()
@@ -47,7 +47,6 @@ class ResultViewController: UIViewController {
         setConfigTableDataSource()
         setConfigRecentTableDataSource()
         bind()
-        resultLayer.tableView.delegate = self
     }
     
     func setUI() {
@@ -86,39 +85,41 @@ class ResultViewController: UIViewController {
     }
     
     func bind() {
+        resultLayer.tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
         viewModel.output.rateLimit
             .withUnretained(self)
-            .subscribe(onNext: { (owner, model) in
+            .subscribe{ owner, model in
                 guard let model = model else { return }
                 owner.resultLayer.rateLimiView.isHidden = false
                 owner.resultLayer.rateLimiView.setUI(model)
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
         
         viewModel.output.isLoading
             .distinctUntilChanged()
             .withUnretained(self)
-            .subscribe(onNext: { (owner, type) in
+            .subscribe{ owner, type in
                 type ? owner.indicatorView.startAnimating() : owner.indicatorView.stopAnimating()
-                
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
         
         viewModel.output.isInComplete
             .distinctUntilChanged()
             .withUnretained(self)
-            .subscribe(onNext: { (owner, type) in
+            .subscribe{ owner, type in
                 owner.indicatorView.stopAnimating()
                 owner.resultLayer.tableView.tableFooterView = nil
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
         
         viewModel.output.searchType
             .distinctUntilChanged()
             .withUnretained(self)
-            .subscribe(onNext: { (owner, type) in
+            .subscribe{ owner, type in
                 owner.resultLayer.rateLimiView.isHidden = true
                 owner.delegate?.hideSearchVC(with: type == .isEmtpy)
                 owner.resultLayer.tableView.isHidden = type != .isComplete
                 owner.resultLayer.recentTableView.isHidden = type != .isSearching
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
         
         viewModel.output.filterList
             .bind(to: resultLayer.recentTableView.rx.items(dataSource: filterDataSource))
@@ -130,31 +131,40 @@ class ResultViewController: UIViewController {
         
         resultLayer.tableView.rx.modelSelected(ResultItem.self)
             .withUnretained(self)
-            .subscribe(onNext: { (owner, item ) in
+            .subscribe{ owner, item in
                 guard let url = item.owner?.url else { return }
                 owner.delegate?.moveToLink(of: url)
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
         
         resultLayer.tableView.rx.prefetchRows
             .throttle(.seconds(5), scheduler: MainScheduler.asyncInstance)
             .observe(on: MainScheduler.asyncInstance)
             .asObservable()
             .withUnretained(self)
-            .subscribe(onNext: { (owner, item) in
+            .subscribe{ (owner, item) in
                 owner.delegate?.nextPageScroll()
-            }).disposed(by: disposeBag)
-     }
+            }.disposed(by: disposeBag)
+        
+        resultLayer.tableView.rx.willDisplayCell
+            .withUnretained(self)
+            .filter{ (owner, value) in
+                !owner.resultLayer.tableView.isLast(for: value.indexPath)
+            }
+            .subscribe{ owner, item in
+                owner.setFooterView()
+            }.disposed(by: disposeBag)
+    }
+    
+    deinit {
+        print("\(#fileID) DEINIT")
+    }
     
 }
 
 extension ResultViewController: UITableViewDelegate {
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        //스크롤 끝난지점
-        guard !(viewModel.output.isInComplete.value) else { return }
-        if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height {
-            let footerView = resultLayer.tableView.dequeueReusableHeaderFooterView(withIdentifier: IndicatorFooterView.identifier) as? IndicatorFooterView
-            resultLayer.tableView.tableFooterView = footerView
-            delegate?.nextPageScroll()
-        }
+    func setFooterView() {
+        let footerView = resultLayer.tableView.dequeueReusableHeaderFooterView(withIdentifier: IndicatorFooterView.identifier) as? IndicatorFooterView
+        resultLayer.tableView.tableFooterView = footerView
+        delegate?.nextPageScroll()
     }
 }

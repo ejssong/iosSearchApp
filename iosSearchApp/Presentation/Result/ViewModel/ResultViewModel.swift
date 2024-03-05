@@ -15,7 +15,7 @@ final class ResultViewModel {
         var searchType: PublishSubject<SearchType> = .init()
         var rateLimit : PublishSubject<ResultRateLimit?> = .init()
         var filterList : PublishSubject<[SectionModel]> = .init()
-        var resultList : PublishSubject<[ResultResponseDTO]> = .init()
+        var resultList : BehaviorRelay<[ResultResponseDTO]> = .init(value: [])
         var isLoading : BehaviorRelay<Bool> = .init(value: false)
         var isInComplete : BehaviorRelay<Bool> = .init(value: false)
     }

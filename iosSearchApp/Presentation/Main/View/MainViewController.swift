@@ -131,7 +131,7 @@ class MainViewController: UIViewController {
     private func itemSelectBind() {
         Observable.of(resultVC.resultLayer.recentTableView.rx.modelSelected(SectionListModel.self), layerView.collectionView.rx.modelSelected(SectionListModel.self))
             .merge()
-            .subscribe(onNext: {[weak self] model in
+            .subscribe{[weak self] model in
                 guard let self = self else { return }
                 //1.텍스트 필드 입력
                 self.searchVC.searchBar.text = model.value
@@ -142,7 +142,7 @@ class MainViewController: UIViewController {
                 self.searchVC.showsSearchResultsController = true
                 //4.키보드 내리기
                 self.searchVC.searchBar.endEditing(true)
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
     }
 }
 
