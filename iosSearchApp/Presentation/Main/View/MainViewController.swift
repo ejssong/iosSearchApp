@@ -65,7 +65,9 @@ class MainViewController: UIViewController {
     
     func setConstraint() {
         layerView.snp.makeConstraints{
-            $0.edges.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.right.equalTo(view.safeAreaLayoutGuide.snp.right)
+            $0.left.equalTo(view.safeAreaLayoutGuide.snp.left)
         }
     }
     
@@ -75,27 +77,27 @@ class MainViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.filterList
-            .bind(to: resultVC.filterList )
+            .bind(to: resultVC.viewModel.output.filterList )
             .disposed(by: disposeBag)
         
         viewModel.resultList
-            .bind(to: resultVC.resultList )
+            .bind(to: resultVC.viewModel.output.resultList )
             .disposed(by: disposeBag)
     
         viewModel.searchType
-            .bind(to: resultVC.searchType )
+            .bind(to: resultVC.viewModel.output.searchType )
             .disposed(by: disposeBag)
         
         viewModel.isLoading
-            .bind(to: resultVC.isLoading )
+            .bind(to: resultVC.viewModel.output.isLoading )
             .disposed(by: disposeBag)
         
         viewModel.rateLimit
-            .bind(to: resultVC.rateLimit )
+            .bind(to: resultVC.viewModel.output.rateLimit )
             .disposed(by: disposeBag)
         
         viewModel.isInComplete
-            .bind(to: resultVC.isInComplete )
+            .bind(to: resultVC.viewModel.output.isInComplete )
             .disposed(by: disposeBag)
     }
     

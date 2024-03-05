@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		669896962B95891200FD22EA /* IndicatorFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669896952B95891200FD22EA /* IndicatorFooterView.swift */; };
-		669896982B958D1100FD22EA /* ItemIndexable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669896972B958D1100FD22EA /* ItemIndexable.swift */; };
 		951F7B9B2B931912008B5808 /* SectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7B9A2B931912008B5808 /* SectionModel.swift */; };
 		951F7BB42B935EBF008B5808 /* MainVC+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BB32B935EBF008B5808 /* MainVC+Search.swift */; };
 		951F7BB72B9362FB008B5808 /* BaseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BB62B9362FB008B5808 /* BaseTargetType.swift */; };
@@ -58,7 +57,6 @@
 		0E7977BC12C244BC0EB30175 /* Pods-iosSearchApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosSearchApp.debug.xcconfig"; path = "Target Support Files/Pods-iosSearchApp/Pods-iosSearchApp.debug.xcconfig"; sourceTree = "<group>"; };
 		15820D598A0B89476B9A3330 /* Pods-iosSearchApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosSearchApp.release.xcconfig"; path = "Target Support Files/Pods-iosSearchApp/Pods-iosSearchApp.release.xcconfig"; sourceTree = "<group>"; };
 		669896952B95891200FD22EA /* IndicatorFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorFooterView.swift; sourceTree = "<group>"; };
-		669896972B958D1100FD22EA /* ItemIndexable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemIndexable.swift; sourceTree = "<group>"; };
 		951F7B9A2B931912008B5808 /* SectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionModel.swift; sourceTree = "<group>"; };
 		951F7BB32B935EBF008B5808 /* MainVC+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainVC+Search.swift"; sourceTree = "<group>"; };
 		951F7BB62B9362FB008B5808 /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
@@ -227,7 +225,6 @@
 				951F7BF52B946C94008B5808 /* Cell */,
 				951F7BE82B9435A6008B5808 /* ResultLayerView.swift */,
 				669896952B95891200FD22EA /* IndicatorFooterView.swift */,
-				669896972B958D1100FD22EA /* ItemIndexable.swift */,
 				95D5F1132B95F41500020483 /* RateLimiView.swift */,
 			);
 			path = Layer;
@@ -602,7 +599,6 @@
 				95DD7F5F2B916BD6002E8666 /* AppDelegate.swift in Sources */,
 				951F7C082B94962B008B5808 /* WebViewModel.swift in Sources */,
 				9570ABC02B91924600508D7E /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
-				669896982B958D1100FD22EA /* ItemIndexable.swift in Sources */,
 				951F7C022B94953B008B5808 /* WebViewCoordinator.swift in Sources */,
 				951F7BB42B935EBF008B5808 /* MainVC+Search.swift in Sources */,
 				951F7B9B2B931912008B5808 /* SectionModel.swift in Sources */,

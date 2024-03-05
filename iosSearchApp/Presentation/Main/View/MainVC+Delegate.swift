@@ -20,7 +20,7 @@ extension MainViewController: CustomFooterDelegate {
     }
 }
 
-extension MainViewController: ResultViewDelegate {
+extension MainViewController : ResultViewDelegate {
     func hideSearchVC(with value: Bool) {
         searchVC.showsSearchResultsController = !value
     }

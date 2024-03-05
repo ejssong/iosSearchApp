@@ -6,29 +6,23 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
-struct ResultViewModelActions{
+final class ResultViewModel {
+
+    struct Output {
+        var searchType: PublishSubject<SearchType> = .init()
+        var rateLimit : PublishSubject<ResultRateLimit?> = .init()
+        var filterList : PublishSubject<[SectionModel]> = .init()
+        var resultList : PublishSubject<[ResultResponseDTO]> = .init()
+        var isLoading : BehaviorRelay<Bool> = .init(value: false)
+        var isInComplete : BehaviorRelay<Bool> = .init(value: false)
+    }
     
-}
-
-protocol ResultViewModelInput{
+    var output : Output        = Output()
     
-}
-
-protocol ResultViewModelOutput {
-    
-}
-
-protocol ResultViewModel: ResultViewModelInput, ResultViewModelOutput { }
-
-final class DefaultResultViewModel: ResultViewModel {
-    
-//    private let usecase: ResultUseCase
-//    private let actions: ResultViewModelActions
-//    
-//    
-//    init(usecase: ResultUseCase, actions: ResultViewModelActions) {
-//        self.usecase = usecase
-//        self.actions = actions
-//    }
+    init() {
+        
+    }
 }

@@ -30,19 +30,10 @@ class ResultViewController: UIViewController {
     
     var resultDataSource: RxTableViewSectionedReloadDataSource<ResultResponseDTO>!
     
-    var searchType: BehaviorRelay<SearchType> = .init(value: .isEmtpy)
-    
-    var rateLimit : BehaviorRelay<ResultRateLimit?> = .init(value: nil)
-    
-    var filterList : BehaviorRelay<[SectionModel]> = .init(value: [])
-    
-    var resultList : BehaviorRelay<[ResultResponseDTO]> = .init(value: [])
-    
-    var isLoading : BehaviorRelay<Bool> = .init(value: false)
-    
-    var isInComplete : BehaviorRelay<Bool> = .init(value: false)
-    
     weak var delegate : ResultViewDelegate?
+
+    var viewModel = ResultViewModel()
+    
     var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -95,7 +86,7 @@ class ResultViewController: UIViewController {
     }
     
     func bind() {
-        rateLimit
+        viewModel.output.rateLimit
             .withUnretained(self)
             .subscribe(onNext: { (owner, model) in
                 guard let model = model else { return }
@@ -103,7 +94,7 @@ class ResultViewController: UIViewController {
                 owner.resultLayer.rateLimiView.setUI(model)
             }).disposed(by: disposeBag)
         
-        isLoading
+        viewModel.output.isLoading
             .distinctUntilChanged()
             .withUnretained(self)
             .subscribe(onNext: { (owner, type) in
@@ -111,7 +102,7 @@ class ResultViewController: UIViewController {
                 
             }).disposed(by: disposeBag)
         
-        isInComplete
+        viewModel.output.isInComplete
             .distinctUntilChanged()
             .withUnretained(self)
             .subscribe(onNext: { (owner, type) in
@@ -119,7 +110,7 @@ class ResultViewController: UIViewController {
                 owner.resultLayer.tableView.tableFooterView = nil
             }).disposed(by: disposeBag)
         
-        searchType
+        viewModel.output.searchType
             .distinctUntilChanged()
             .withUnretained(self)
             .subscribe(onNext: { (owner, type) in
@@ -129,11 +120,11 @@ class ResultViewController: UIViewController {
                 owner.resultLayer.recentTableView.isHidden = type != .isSearching
             }).disposed(by: disposeBag)
         
-        filterList
+        viewModel.output.filterList
             .bind(to: resultLayer.recentTableView.rx.items(dataSource: filterDataSource))
             .disposed(by: disposeBag)
         
-        resultList
+        viewModel.output.resultList
             .bind(to: resultLayer.tableView.rx.items(dataSource: resultDataSource))
             .disposed(by: disposeBag)
         
@@ -145,8 +136,7 @@ class ResultViewController: UIViewController {
             }).disposed(by: disposeBag)
         
         resultLayer.tableView.rx.prefetchRows
-            .filter{_ in !self.isInComplete.value || !self.isLoading.value }
-            .throttle(.seconds(10), scheduler: MainScheduler.asyncInstance)
+            .throttle(.seconds(5), scheduler: MainScheduler.asyncInstance)
             .observe(on: MainScheduler.asyncInstance)
             .asObservable()
             .withUnretained(self)
@@ -160,7 +150,7 @@ class ResultViewController: UIViewController {
 extension ResultViewController: UITableViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         //스크롤 끝난지점
-        guard !isInComplete.value else { return }
+        guard !(viewModel.output.isInComplete.value) else { return }
         if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height {
             let footerView = resultLayer.tableView.dequeueReusableHeaderFooterView(withIdentifier: IndicatorFooterView.identifier) as? IndicatorFooterView
             resultLayer.tableView.tableFooterView = footerView
