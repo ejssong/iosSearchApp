@@ -37,10 +37,8 @@ protocol MainViewModelOutput {
     var rateLimit: BehaviorRelay<ResultRateLimit?> { get set }      //API 로드 횟수 초과
     var searchType: BehaviorRelay<SearchType> { get set }           //입력 타입
     var isLoading: BehaviorRelay<Bool> { get set }                  //API 로딩 중 여부
-    var requestDTO : RequestDTO { get set }                         //입력DTO
     var isComplete : BehaviorRelay<Bool> { get set }                //API 로딩 완료 여부
     var isError : BehaviorRelay<Bool> { get set }                   //API 에러 여부 (횟수 초과)
-   
 }
 
 protocol MainViewModel: MainViewModelInput, MainViewModelOutput { }
@@ -58,9 +56,9 @@ final class DefaultMainViewModel: MainViewModel {
     var rateLimit: BehaviorRelay<ResultRateLimit?>       = .init(value: nil)
     var isLoading: BehaviorRelay<Bool>                   = .init(value: false)
     var toastMessage: PublishSubject<String>             = .init()
-    var requestDTO: RequestDTO                           = RequestDTO()
     var isComplete: BehaviorRelay<Bool>                  = .init(value: false)
     var isError: BehaviorRelay<Bool>                     = .init(value: false)
+    var requestDTO: RequestDTO                           = RequestDTO()
 
     //MARK: - Init
     init(usecase: MainUseCase, actions: MainViewModelActions) {
