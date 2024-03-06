@@ -71,7 +71,7 @@ final class DefaultMainViewModel: MainViewModel {
     
     private func setModel() {
         guard let list = UserDefaultsManager.recentList else {
-            UserDefaultsManager.recentList = [] 
+            UserDefaultsManager.recentList = []
             recentSearchList.accept([])
             return
         }
@@ -83,13 +83,11 @@ final class DefaultMainViewModel: MainViewModel {
      */
     func fetchItem(of dto: RequestDTO) {
         requestDTO = dto
-        print("DTO >> \(dto)")
         usecase.reqKeywordResult(of: dto) { [weak self] data in
             guard let self = self else { return }
             self.isLoading.accept(false)
             switch data {
             case .success(let model):
-                print("model >> \(model.error)")
                 self.appendList(model)
             case .failure(let error):
                 self.toastMessage.onNext(error.localizedDescription)
@@ -191,7 +189,7 @@ extension DefaultMainViewModel {
      키워드 전체 삭제
      */
     func didTapRemoveAll() {
-        UserDefaultsManager.recentList = nil
+        UserDefaultsManager.recentList = []
         recentSearchList.accept(.init())
     }
     
