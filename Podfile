@@ -9,6 +9,7 @@ target 'iosSearchApp' do
   # UI
   pod 'SnapKit', '~> 5.6.0'
   pod 'Then', '3.0.0'
+  pod 'Toast'
 
   # Rx
   pod 'RxSwift'
