@@ -23,6 +23,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         window = UIWindow(windowScene: scene)
+        if #available(iOS 13.0, *) {
+            window?.overrideUserInterfaceStyle = .light
+        }
         let navigation = UINavigationController.defaultNavigaiton()
         window?.rootViewController = navigation
         appFlowCoordinator = AppFlowCoordinator(navigation: navigation,
