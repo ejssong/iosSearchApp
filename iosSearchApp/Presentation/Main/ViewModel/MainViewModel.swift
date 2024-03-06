@@ -20,26 +20,26 @@ struct MainViewModelActions{
 }
 
 protocol MainViewModelInput{
-    func didSearchUpdate(of keyword: String)   //최근 검색 필터링
+    func didSearchUpdate(of keyword: String)    //최근 검색 필터링
     func didSearchCancel()                      //검색 캔슬
-    func didTapRemoveKeyword(of text: String)  //최근 검색어 삭제
+    func didTapRemoveKeyword(of text: String)   //최근 검색어 삭제
     func didTapRemoveAll()                      //최근 검색어 전체 삭제
-    func moveToResult(of keyword: String)      //키워드 검색
-    func nextPageScroll()                      //다음 페이지 로드
-    func moveToWebView(_ url: String)         //웹뷰 이동
+    func moveToResult(of keyword: String)       //키워드 검색
+    func nextPageScroll()                       //다음 페이지 로드
+    func moveToWebView(_ url: String)           //웹뷰 이동
 }
 
 protocol MainViewModelOutput {
-    var recentSearchList: BehaviorRelay<[SectionModel]> { get set }
-    var filterList : BehaviorRelay<[SectionModel]> { get set }
-    var resultList : BehaviorRelay<[ResultResponseDTO]> { get set }
-    var toastMessage: PublishSubject<String> { get set }
-    var rateLimit: BehaviorRelay<ResultRateLimit?> { get set }
-    var searchType: BehaviorRelay<SearchType> { get set }
-    var isLoading: BehaviorRelay<Bool> { get set }
-    var requestDTO : RequestDTO { get set }
-    var isComplete : BehaviorRelay<Bool> { get set }
-    var isError : BehaviorRelay<Bool> { get set }
+    var recentSearchList: BehaviorRelay<[SectionModel]> { get set } //최신 검색어 리스트
+    var filterList : BehaviorRelay<[SectionModel]> { get set }      //키워드 필터링 리스트
+    var resultList : BehaviorRelay<[ResultResponseDTO]> { get set } //키워드 검색 결과 리스트
+    var toastMessage: PublishSubject<String> { get set }            //토스트 메시지
+    var rateLimit: BehaviorRelay<ResultRateLimit?> { get set }      //API 로드 횟수 초과
+    var searchType: BehaviorRelay<SearchType> { get set }           //입력 타입
+    var isLoading: BehaviorRelay<Bool> { get set }                  //API 로딩 중 여부
+    var requestDTO : RequestDTO { get set }                         //입력DTO
+    var isComplete : BehaviorRelay<Bool> { get set }                //API 로딩 완료 여부
+    var isError : BehaviorRelay<Bool> { get set }                   //API 에러 여부 (횟수 초과)
    
 }
 
@@ -216,7 +216,7 @@ extension DefaultMainViewModel {
     }
     
     /**
-     해당 저장소 웹뷰 이동
+     해당 레퍼지토리  웹뷰 이동
      */
     func moveToWebView(_ url: String) {
         actions.moveToMemo(url)
