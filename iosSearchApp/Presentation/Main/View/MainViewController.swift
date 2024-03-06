@@ -9,6 +9,7 @@ import UIKit
 import RxDataSources
 import RxSwift
 import RxCocoa
+import Toast
 
 class MainViewController: UIViewController {
     
@@ -103,6 +104,13 @@ class MainViewController: UIViewController {
         viewModel.isError
             .bind(to: resultVC.viewModel.output.isError )
             .disposed(by: disposeBag)
+        
+        viewModel.toastMessage
+            .withUnretained(self)
+            .subscribe{ owner, value in
+                let topVC = UIApplication.getMostTopViewController()
+                topVC?.view.makeToast(value)
+            }.disposed(by: disposeBag)
     }
     
     private func setConfigCollectionDataSource() {
