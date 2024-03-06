@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6651F4932B97FA5900365562 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6651F4922B97FA5900365562 /* UIApplication+.swift */; };
 		669896962B95891200FD22EA /* IndicatorFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669896952B95891200FD22EA /* IndicatorFooterView.swift */; };
 		66D1B7652B970E9700C73D86 /* UITableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D1B7642B970E9700C73D86 /* UITableView+.swift */; };
 		951F7B9B2B931912008B5808 /* SectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7B9A2B931912008B5808 /* SectionModel.swift */; };
@@ -19,7 +20,7 @@
 		951F7BC32B936451008B5808 /* ResultTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BC22B936451008B5808 /* ResultTargetType.swift */; };
 		951F7BC52B936474008B5808 /* RequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BC42B936474008B5808 /* RequestDTO.swift */; };
 		951F7BC92B936576008B5808 /* ResultResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BC82B936576008B5808 /* ResultResponseDTO.swift */; };
-		951F7BE42B94328D008B5808 /* UserDefaultsManasger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BE32B94328D008B5808 /* UserDefaultsManasger.swift */; };
+		951F7BE42B94328D008B5808 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BE32B94328D008B5808 /* UserDefaultsManager.swift */; };
 		951F7BE92B9435A6008B5808 /* ResultLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BE82B9435A6008B5808 /* ResultLayerView.swift */; };
 		951F7BEC2B9437B2008B5808 /* SearchUpdateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BEB2B9437B2008B5808 /* SearchUpdateCell.swift */; };
 		951F7BF42B94483C008B5808 /* MainVC+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F7BF32B94483C008B5808 /* MainVC+Delegate.swift */; };
@@ -57,6 +58,7 @@
 /* Begin PBXFileReference section */
 		0E7977BC12C244BC0EB30175 /* Pods-iosSearchApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosSearchApp.debug.xcconfig"; path = "Target Support Files/Pods-iosSearchApp/Pods-iosSearchApp.debug.xcconfig"; sourceTree = "<group>"; };
 		15820D598A0B89476B9A3330 /* Pods-iosSearchApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosSearchApp.release.xcconfig"; path = "Target Support Files/Pods-iosSearchApp/Pods-iosSearchApp.release.xcconfig"; sourceTree = "<group>"; };
+		6651F4922B97FA5900365562 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		669896952B95891200FD22EA /* IndicatorFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorFooterView.swift; sourceTree = "<group>"; };
 		66D1B7642B970E9700C73D86 /* UITableView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+.swift"; sourceTree = "<group>"; };
 		951F7B9A2B931912008B5808 /* SectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionModel.swift; sourceTree = "<group>"; };
@@ -69,7 +71,7 @@
 		951F7BC22B936451008B5808 /* ResultTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTargetType.swift; sourceTree = "<group>"; };
 		951F7BC42B936474008B5808 /* RequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestDTO.swift; sourceTree = "<group>"; };
 		951F7BC82B936576008B5808 /* ResultResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultResponseDTO.swift; sourceTree = "<group>"; };
-		951F7BE32B94328D008B5808 /* UserDefaultsManasger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManasger.swift; sourceTree = "<group>"; };
+		951F7BE32B94328D008B5808 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		951F7BE82B9435A6008B5808 /* ResultLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultLayerView.swift; sourceTree = "<group>"; };
 		951F7BEB2B9437B2008B5808 /* SearchUpdateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUpdateCell.swift; sourceTree = "<group>"; };
 		951F7BF32B94483C008B5808 /* MainVC+Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainVC+Delegate.swift"; sourceTree = "<group>"; };
@@ -190,7 +192,7 @@
 		951F7BE22B943275008B5808 /* UserDefaults */ = {
 			isa = PBXGroup;
 			children = (
-				951F7BE32B94328D008B5808 /* UserDefaultsManasger.swift */,
+				951F7BE32B94328D008B5808 /* UserDefaultsManager.swift */,
 			);
 			path = UserDefaults;
 			sourceTree = "<group>";
@@ -405,6 +407,7 @@
 				9570ABBF2B91924600508D7E /* LeftAlignedCollectionViewFlowLayout.swift */,
 				951F7BFD2B947EB3008B5808 /* Encodable.swift */,
 				66D1B7642B970E9700C73D86 /* UITableView+.swift */,
+				6651F4922B97FA5900365562 /* UIApplication+.swift */,
 			);
 			path = Extention;
 			sourceTree = "<group>";
@@ -586,12 +589,13 @@
 			files = (
 				9570ABC22B91953100508D7E /* CustomHeaderView.swift in Sources */,
 				951F7BFA2B946E72008B5808 /* ResultViewModel.swift in Sources */,
+				6651F4932B97FA5900365562 /* UIApplication+.swift in Sources */,
 				9570ABA22B91712700508D7E /* AppFlowCoordinator.swift in Sources */,
 				9570ABA82B91719A00508D7E /* MainCoordinator.swift in Sources */,
 				9570ABB92B91869200508D7E /* RecentSearchCell.swift in Sources */,
 				669896962B95891200FD22EA /* IndicatorFooterView.swift in Sources */,
 				9570ABA62B91718400508D7E /* MainDIContainer.swift in Sources */,
-				951F7BE42B94328D008B5808 /* UserDefaultsManasger.swift in Sources */,
+				951F7BE42B94328D008B5808 /* UserDefaultsManager.swift in Sources */,
 				95DD7F632B916BD6002E8666 /* MainViewController.swift in Sources */,
 				951F7BEC2B9437B2008B5808 /* SearchUpdateCell.swift in Sources */,
 				9570ABB02B91795D00508D7E /* MainRepositoryProtocol.swift in Sources */,
