@@ -197,6 +197,7 @@ extension DefaultMainViewModel {
      */
     func moveToResult(of keyword: String) {
         isLoading.accept(true)
+        resultList.accept(.init())
         isComplete.accept(.init())
         searchType.accept(.isComplete)
         insertArray(with: keyword)
