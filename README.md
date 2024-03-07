@@ -9,6 +9,19 @@
 ### Architecture
 - Clean Architecture + MVVM Pattern
 
+```
+  |--- Application
+  |     |__ DIContainer 
+  |     |__ Coordinator : 화면 전환 분담 
+  |--- Domain (비지니스 로직을 정의하는 영역) 
+  |     |__ Entities : ResponseDTO 
+  |     |__ Interfaces : 저장소와 관련
+  |     |__ UseCase : 사용자가 해당 서비스를 통해 하고자 하는 것
+  |--- Presentation
+  |--- Data (데이터 통신 처리) 
+  |___ Util (Extension+, UserDefaultsManager 등., )
+```
+
 ### API Reference
 
 ```
@@ -24,7 +37,7 @@
 ### API Edge Case
 #### 1.  API 횟수 초과
 ```bash
-  연속으로 API 16 ~ 20 이상 태우면 더 이상 호출이 안되기 때문에 API 호출을 막아 줘야 한다.
+  연속으로 API 16 ~ 20 이상 조회시 횟수 초과 에러가 떨어지기 때문에 API 호출을 막아 줘야 한다.
 ```
 #### API Rate Limit Example
 ```
@@ -37,7 +50,6 @@
 
 #### 2. incomplete : true 로 안 떨어지는 이슈
 ```bash
-  첫번째 페이지에서 total_cnt 와 item 의 개수가 일치 할때 incomplete false로 
+  첫번째 페이지에서 total_cnt 와 item 의 개수가 일치 할때 incomplete false로
   떨어지기 때문에 total_cnt & item 개수가 같은 경우 API 호출을 막아줘야 한다.
 ```
-
