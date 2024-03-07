@@ -1,11 +1,17 @@
 # iosSearchApp
+### UserFlow
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/ejssong/iosSearchApp/assets/59044882/ebed175e-d01e-48d5-850b-e6b82bbd3fa8">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/ejssong/iosSearchApp/assets/59044882/c36bac04-461e-4b04-bbe4-e0c0012171f1">
+  <img alt="iosSearchAppUserFlow" src="https://github.com/ejssong/iosSearchApp/assets/59044882/c36bac04-461e-4b04-bbe4-e0c0012171f1">
+</picture>
 
 ### Architecture
 - Clean Architecture + MVVM Pattern
 
 ### API Reference
 
-```http
+```
   GET https://api.github.com/search/repositories
 ```
 
